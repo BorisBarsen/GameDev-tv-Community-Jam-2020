@@ -13,13 +13,14 @@ public class Tower : MonoBehaviour {
 	void Start () {
         objectToPan = transform.Find("Tower_A_Top");
         targetEnemy = GameObject.Find("Enemy").transform;
-
-        gun = transform.GetComponent<ParticleSystem>();
+        gun = objectToPan.gameObject.GetComponent<ParticleSystem>();
     }
 	
 	// Update is called once per frame
 	void Update () {
         objectToPan.LookAt(targetEnemy);
+
+        // Shoot
         if (Input.GetKeyDown("space"))
         {
             print("hello");
