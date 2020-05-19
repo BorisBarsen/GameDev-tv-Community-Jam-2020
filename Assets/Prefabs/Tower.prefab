@@ -236,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToPan: {fileID: 0}
   targetEnemy: {fileID: 0}
+  gunRange: 40
 --- !u!198 &198692375005187500
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -247,8 +248,8 @@ ParticleSystem:
   simulationSpeed: 15
   stopAction: 0
   looping: 1
-  prewarm: 0
-  playOnAwake: 1
+  prewarm: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
