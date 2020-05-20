@@ -13,8 +13,7 @@ public class EnemyHealth : MonoBehaviour {
 
         if (health < 0)
         {
-            DeathEvent();
-            
+            DeathEvent();            
         }
     }
 
@@ -33,6 +32,6 @@ public class EnemyHealth : MonoBehaviour {
         audioSource.Play();
 
         Destroy(deathEventClone, Mathf.Max(audioSource.clip.length, particleSystem.main.duration) + 0.1f);
-        Destroy(transform.parent.gameObject);
+        Destroy(gameObject);
     }
 }
