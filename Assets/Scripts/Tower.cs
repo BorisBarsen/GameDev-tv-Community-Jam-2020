@@ -36,7 +36,7 @@ public class Tower : MonoBehaviour {
         }
         else
         {
-            gun.Stop(); // TODO all particles and subparticles just disapear, try to do this with emission enabled.
+            gun.Stop();
         }
     }
 
