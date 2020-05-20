@@ -33,11 +33,11 @@ public class Tower : MonoBehaviour {
         if (targetEnemy != null)
         {
             objectToPan.LookAt(targetEnemy.transform);
-            gun.Play();
+            gun.Play(); 
         }
         else
         {
-            gun.Stop();
+            gun.Stop(); // TODO all particles and subparticles just disapear, try to do this with emission enabled.
         }
     }
 
