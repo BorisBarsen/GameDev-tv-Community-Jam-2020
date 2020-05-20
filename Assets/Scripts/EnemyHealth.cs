@@ -11,7 +11,7 @@ public class EnemyHealth : MonoBehaviour {
     {
         takeDamage();
 
-        if (health < 0)
+        if (health <= 0)
         {
             DeathEvent();            
         }

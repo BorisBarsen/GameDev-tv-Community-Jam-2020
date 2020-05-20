@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour {
 
-    [SerializeField] Transform objectToPan;
-    [SerializeField] GameObject targetEnemy;
     [SerializeField] float gunRange = 30;
+
+    Transform objectToPan;
+    GameObject targetEnemy;
 
     ParticleSystem gun;
 
@@ -17,10 +18,16 @@ public class Tower : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-        targetEnemy = FindClosestEnemyInRange(gunRange);
+	void Update ()
+    {
+        ShootAtClosestEnemyInRange();
+    }
 
-        if(targetEnemy != null)
+    private void ShootAtClosestEnemyInRange()
+    {
+        targetEnemy = FindClosestEnemyInRange();
+
+        if (targetEnemy != null)
         {
             objectToPan.LookAt(targetEnemy.transform);
             gun.Play();
@@ -29,9 +36,9 @@ public class Tower : MonoBehaviour {
         {
             gun.Stop();
         }
-	}
+    }
 
-    private GameObject FindClosestEnemyInRange(float range)
+    private GameObject FindClosestEnemyInRange()
     {
         GameObject closestEnemyInRange = null;
         float distanceToClosestEnemy = float.MaxValue;
@@ -45,7 +52,7 @@ public class Tower : MonoBehaviour {
             {
                 distanceToClosestEnemy = distanceToCurrentEnemy;
 
-                if (Vector3.Distance(transform.position, enemy.transform.position) <= range)
+                if (Vector3.Distance(transform.position, enemy.transform.position) <= gunRange)
                 {
                     closestEnemyInRange = enemy;
                 }
