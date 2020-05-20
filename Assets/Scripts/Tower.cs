@@ -16,8 +16,7 @@ public class Tower : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //objectToPan = transform.Find("Tower_A_Top");
-        //gun = gun;
+
     }
 	
 	// Update is called once per frame
