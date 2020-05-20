@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour {
 
+
+    [SerializeField] Transform objectToPan;
+    [SerializeField] ParticleSystem gun;
+
     [SerializeField] float gunRange = 30;
 
-    Transform objectToPan;
     GameObject targetEnemy;
 
-    ParticleSystem gun;
+
 
 	// Use this for initialization
 	void Start () {
-        objectToPan = transform.Find("Tower_A_Top");
-        gun = objectToPan.gameObject.GetComponent<ParticleSystem>();
+        //objectToPan = transform.Find("Tower_A_Top");
+        //gun = gun;
     }
 	
 	// Update is called once per frame
