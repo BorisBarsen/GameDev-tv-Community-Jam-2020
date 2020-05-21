@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour {
 
-    [SerializeField] float secondsBetweenSpawns = 2f;
+    [SerializeField] [Range(0.1f, 120f)] float secondsBetweenSpawns = 2f;
     [SerializeField] EnemyMovement enemyPrefab;
 
 	// Use this for initialization
@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(secondsBetweenSpawns);
-            GameObject enemyClone = Instantiate(enemyPrefab.gameObject, transform.position, transform.rotation) as GameObject;
+            GameObject enemyClone = Instantiate(enemyPrefab.gameObject, transform.position, Quaternion.identity) as GameObject;
             print("Spawning!");
         }
     }

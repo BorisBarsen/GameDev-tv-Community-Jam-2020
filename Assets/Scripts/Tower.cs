@@ -10,6 +10,7 @@ public class Tower : MonoBehaviour {
 
     [SerializeField] float gunRange = 30;
 
+    // State
     GameObject targetEnemy;
 
 
@@ -29,7 +30,7 @@ public class Tower : MonoBehaviour {
     {
         targetEnemy = FindClosestEnemyInRange();
 
-        if (targetEnemy != null)
+        if (targetEnemy)
         {
             objectToPan.LookAt(targetEnemy.transform);
             gun.Play(); 
