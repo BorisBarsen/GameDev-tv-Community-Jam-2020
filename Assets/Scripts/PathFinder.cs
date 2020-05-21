@@ -115,7 +115,6 @@ public class PathFinder : MonoBehaviour
             if (!grid.ContainsKey(waypoint.GetGridPos()))
             {
                 grid.Add(waypoint.GetGridPos(), waypoint);
-                SetTopColor(waypoint);
             }
             else
             {
@@ -126,19 +125,4 @@ public class PathFinder : MonoBehaviour
         print("Loaded " + grid.Count + " blocks");        
     }
 
-    private void SetTopColor(Waypoint waypoint)
-    { 
-        if (waypoint.Equals(startWaypoint))
-        {
-            waypoint.SetTopColor(Color.green);
-        }
-        else if (waypoint.Equals(endWaypoint))
-        {
-            waypoint.SetTopColor(Color.red);
-        }
-        else
-        {
-            waypoint.SetTopColor(Color.gray);
-        }
-    }
 }
