@@ -13,6 +13,10 @@ public class Tower : MonoBehaviour {
     // State
     GameObject targetEnemy;
 
+    public void remove()
+    {
+        Destroy(gameObject);
+    }
 
 
 	// Use this for initialization

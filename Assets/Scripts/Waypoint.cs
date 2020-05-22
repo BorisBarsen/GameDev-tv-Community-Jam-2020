@@ -7,8 +7,10 @@ public class Waypoint : MonoBehaviour {
     public Waypoint exploredFrom;
     public bool isPlaceable = true;
 
-        [SerializeField] Tower towerPrefab;
+    [SerializeField] Tower towerPrefab;
     [SerializeField] Transform towers;
+
+    public Tower towerClone;
 
     Vector2Int gridPos;
 
@@ -34,17 +36,35 @@ public class Waypoint : MonoBehaviour {
         {
             if (isPlaceable)
             {
-                print("Setting tower at: " + gameObject.name);
-                var towerClone = Instantiate(towerPrefab, transform.position, Quaternion.identity);
-                towerClone.transform.parent = towers;
-                isPlaceable = false;
+                PlaceTower();
             }
             else
             {
-                print("Can't place here");
+                if (towerClone)
+                {
+                    RemoveTower();
+                }
+                else
+                {
+                    print("Can't place here");
+                }
             }
         }
 
     }
 
+    private void PlaceTower()
+    {
+        print("Setting tower at: " + gameObject.name);
+        towerClone = Instantiate(towerPrefab, transform.position, Quaternion.identity);
+        towerClone.transform.parent = towers;
+        isPlaceable = false;
+    }
+
+    private void RemoveTower()
+    {
+        print("Setting tower at: " + gameObject.name);
+        towerClone.remove();
+        isPlaceable = true;
+    }
 }
