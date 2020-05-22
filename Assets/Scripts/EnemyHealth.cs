@@ -9,13 +9,15 @@ public class EnemyHealth : MonoBehaviour {
 
     [SerializeField] GameObject deathEvent;
 
+    bool dying = false;
+
     private void OnParticleCollision(GameObject other)
     {
         takeDamage();
 
         if (health <= 0)
         {
-            DeathEvent();            
+            if (!dying) DeathEvent();            
         }
     }
 
@@ -26,12 +28,15 @@ public class EnemyHealth : MonoBehaviour {
 
     private void DeathEvent()
     {
+        dying = true;
+
         GameObject deathEventClone = Instantiate(deathEvent, transform.position, Quaternion.identity) as GameObject;
         ParticleSystem particleSystem = deathEventClone.GetComponent<ParticleSystem>();
         AudioSource audioSource = deathEventClone.GetComponent<AudioSource>();
 
+        
         particleSystem.Play();
-        audioSource.Play();
+        if (audioSource != null) audioSource.Play();
 
         Destroy(deathEventClone, Mathf.Max(audioSource.clip.length, particleSystem.main.duration) + 0.1f);
         Destroy(gameObject);
