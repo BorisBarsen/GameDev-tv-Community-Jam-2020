@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Waypoint : MonoBehaviour {
-
     public bool discovered = false; //ok public as is a data class
     public Waypoint exploredFrom;
+    public bool isPlaceable = true;
+
+        [SerializeField] Tower towerPrefab;
+    [SerializeField] Transform towers;
 
     Vector2Int gridPos;
 
@@ -27,7 +30,21 @@ public class Waypoint : MonoBehaviour {
 
     void OnMouseOver()
     {
-        print("Mouse is over: " + gameObject.name);
+        if (Input.GetMouseButtonDown(0)) // Left click
+        {
+            if (isPlaceable)
+            {
+                print("Setting tower at: " + gameObject.name);
+                var towerClone = Instantiate(towerPrefab, transform.position, Quaternion.identity);
+                towerClone.transform.parent = towers;
+                isPlaceable = false;
+            }
+            else
+            {
+                print("Can't place here");
+            }
+        }
+
     }
 
 }
