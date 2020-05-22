@@ -7,6 +7,8 @@ public class EnemyHealth : MonoBehaviour {
     [SerializeField] int health = 100;
     [SerializeField] int damagePerHit = 5;
 
+    [SerializeField] GameObject deathEvent;
+
     private void OnParticleCollision(GameObject other)
     {
         takeDamage();
@@ -24,7 +26,7 @@ public class EnemyHealth : MonoBehaviour {
 
     private void DeathEvent()
     {
-        GameObject deathEventClone = Instantiate(GameObject.Find("Death Event"), transform.position, transform.rotation) as GameObject;
+        GameObject deathEventClone = Instantiate(deathEvent, transform.position, Quaternion.identity) as GameObject;
         ParticleSystem particleSystem = deathEventClone.GetComponent<ParticleSystem>();
         AudioSource audioSource = deathEventClone.GetComponent<AudioSource>();
 
