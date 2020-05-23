@@ -1249,10 +1249,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1874597062536572, guid: 64c1c1fc7a3acc44f8579c17356af973, type: 2}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
+    - target: {fileID: 114706346440652560, guid: 64c1c1fc7a3acc44f8579c17356af973,
+        type: 2}
+      propertyPath: pathfinder
+      value: 
+      objectReference: {fileID: 1391976313}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64c1c1fc7a3acc44f8579c17356af973, type: 2}
   m_IsPrefabParent: 0
@@ -1445,7 +1446,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4216038592990324, guid: ad8a1a747fb7232419d8babc2c93838c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4216038592990324, guid: ad8a1a747fb7232419d8babc2c93838c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1477,12 +1478,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1053422269611434, guid: ad8a1a747fb7232419d8babc2c93838c, type: 2}
       propertyPath: m_Name
-      value: Cube [5,1]
+      value: Cube [4,1]
       objectReference: {fileID: 0}
     - target: {fileID: 102810712203426444, guid: ad8a1a747fb7232419d8babc2c93838c,
         type: 2}
       propertyPath: m_Text
-      value: 5,1
+      value: 4,1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad8a1a747fb7232419d8babc2c93838c, type: 2}
@@ -2040,7 +2041,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1269267278
 Transform:
   m_ObjectHideFlags: 0
@@ -3134,7 +3135,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4216038592990324, guid: ad8a1a747fb7232419d8babc2c93838c, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4216038592990324, guid: ad8a1a747fb7232419d8babc2c93838c, type: 2}
       propertyPath: m_LocalRotation.x
@@ -3158,12 +3159,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1053422269611434, guid: ad8a1a747fb7232419d8babc2c93838c, type: 2}
       propertyPath: m_Name
-      value: Cube [4,-1]
+      value: Cube [4,0]
       objectReference: {fileID: 0}
     - target: {fileID: 102810712203426444, guid: ad8a1a747fb7232419d8babc2c93838c,
         type: 2}
       propertyPath: m_Text
-      value: 4,-1
+      value: 4,0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad8a1a747fb7232419d8babc2c93838c, type: 2}
