@@ -15,6 +15,8 @@ public class EnemyMovement : MonoBehaviour {
     Vector3 from;
     Vector3 to;
 
+    Vector3 travelPath;
+
     // Use this for initialization
     void Start () {
         PathFinder pathfinder = FindObjectOfType<PathFinder>();
@@ -30,6 +32,7 @@ public class EnemyMovement : MonoBehaviour {
         {
             from = path[i].transform.position;
             to = path[i+1].transform.position;
+            travelPath = to - from;
 
             timeTraveledToDestination = 0f;
             yield return new WaitForSeconds(travelTimePerBlock);
@@ -43,8 +46,8 @@ public class EnemyMovement : MonoBehaviour {
     {
         if (!stop)
         {
-            float distanceThisFrame = (timeTraveledToDestination / travelTimePerBlock);
-            transform.position = from + ((from - to) * -1 * distanceThisFrame); // TODO fix moving off screen
+            float distanceThisFrame = timeTraveledToDestination / travelTimePerBlock;
+            transform.position = from + (travelPath * distanceThisFrame);
 
             timeTraveledToDestination += Time.deltaTime;
         }
