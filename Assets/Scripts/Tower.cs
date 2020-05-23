@@ -10,6 +10,8 @@ public class Tower : MonoBehaviour {
 
     [SerializeField] float gunRange = 30;
 
+    public Waypoint baseWaypoint;
+
     // State
     GameObject targetEnemy;
 
