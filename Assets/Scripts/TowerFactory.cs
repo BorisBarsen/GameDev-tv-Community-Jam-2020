@@ -6,7 +6,7 @@ public class TowerFactory : MonoBehaviour {
 
     [SerializeField] int towerLimit = 5;
     [SerializeField] Tower towerPrefab;
-    [SerializeField] GameObject towerParent;
+    [SerializeField] Transform towerParent;
 
     [SerializeField]Queue<Tower> towers = new Queue<Tower>();
 
@@ -24,10 +24,8 @@ public class TowerFactory : MonoBehaviour {
 
     private void InstantiateNewTower(Waypoint baseWaypoint)
     {
-        print("Setting tower at: " + baseWaypoint.name);
-
         var towerClone = Instantiate(towerPrefab, baseWaypoint.transform.position, Quaternion.identity);
-        towerClone.transform.parent = towerParent.transform;
+        towerClone.transform.parent = towerParent;
 
 
         towerClone.baseWaypoint = baseWaypoint;
@@ -49,7 +47,5 @@ public class TowerFactory : MonoBehaviour {
         tower.transform.position = newBaseWaypoint.transform.position;
 
         towers.Enqueue(tower);
-
-        print("Tower limit reached, moving tower from " + oldBaseWaypoint + " to " + newBaseWaypoint);
     }
 }

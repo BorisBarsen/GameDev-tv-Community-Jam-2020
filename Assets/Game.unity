@@ -573,7 +573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &320954695
 Transform:
   m_ObjectHideFlags: 0
@@ -2293,7 +2293,6 @@ MonoBehaviour:
   secondsBetweenSpawns: 1.5
   enemyPrefab: {fileID: 114706346440652560, guid: 64c1c1fc7a3acc44f8579c17356af973,
     type: 2}
-  enemyParent: {fileID: 1374737395}
 --- !u!4 &1391630926 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4216038592990324, guid: ad8a1a747fb7232419d8babc2c93838c,
@@ -2381,7 +2380,7 @@ MonoBehaviour:
   towerLimit: 5
   towerPrefab: {fileID: 114365559123338842, guid: d618e0b03c3e7ed4b985d88d4b276e1a,
     type: 2}
-  towerParent: {fileID: 1269267277}
+  towerParent: {fileID: 1269267278}
 --- !u!4 &1403583331 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4051440079370266, guid: 64c1c1fc7a3acc44f8579c17356af973,
