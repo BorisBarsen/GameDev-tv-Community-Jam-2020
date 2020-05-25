@@ -6,6 +6,7 @@ using UnityEngine;
 [SelectionBase]
 public class EnemyMovement : MonoBehaviour {
 
+    [Tooltip("In s")]
     [SerializeField] float travelTimePerBlock = 3f;
 
     bool stop = false;

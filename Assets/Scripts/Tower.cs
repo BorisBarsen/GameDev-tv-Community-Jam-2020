@@ -19,12 +19,6 @@ public class Tower : MonoBehaviour {
     {
         Destroy(gameObject);
     }
-
-
-	// Use this for initialization
-	void Start () {
-
-    }
 	
 	// Update is called once per frame
 	void Update ()

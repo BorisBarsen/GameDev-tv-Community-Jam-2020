@@ -22,8 +22,4 @@ public class EnemySpawner : MonoBehaviour {
             print("Spawning!");
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-    }
 }

@@ -72,9 +72,6 @@ public class PathFinder : MonoBehaviour
             ExploreNeighbors();
             searchCenter.discovered = true;
         }
-
-        // todo work out path
-        print("Finished pathfinding?");
     }
 
     private void HoldIfEndFound()
