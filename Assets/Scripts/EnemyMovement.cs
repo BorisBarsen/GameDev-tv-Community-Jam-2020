@@ -9,8 +9,6 @@ public class EnemyMovement : MonoBehaviour {
     [Tooltip("In s")]
     [SerializeField] float travelTimePerBlock = 3f;
 
-    FriendlyBase friendlyBase;
-
     bool stop = false; //TODO remove
 
     float timeTraveledToDestination;
@@ -24,7 +22,6 @@ public class EnemyMovement : MonoBehaviour {
     void Start () {
         PathFinder pathfinder = FindObjectOfType<PathFinder>();
         var path = pathfinder.GetPath();
-        friendlyBase = GameObject.Find("FriendlyBase").GetComponent<FriendlyBase>();
         StartCoroutine(UpdateDestination(path));
     }
 
@@ -45,9 +42,7 @@ public class EnemyMovement : MonoBehaviour {
         stop = true;
 
         GetComponent<EnemyHealth>().KillEnemy();
-        friendlyBase.TakeHit();
         print("End patrol");
-
     }
 
     private void Update()
