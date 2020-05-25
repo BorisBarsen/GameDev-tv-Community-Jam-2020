@@ -6,6 +6,7 @@ public class TowerFactory : MonoBehaviour {
 
     [SerializeField] int towerLimit = 5;
     [SerializeField] Tower towerPrefab;
+    [SerializeField] GameObject towerParent;
 
     [SerializeField]Queue<Tower> towers = new Queue<Tower>();
 
@@ -26,6 +27,8 @@ public class TowerFactory : MonoBehaviour {
         print("Setting tower at: " + baseWaypoint.name);
 
         var towerClone = Instantiate(towerPrefab, baseWaypoint.transform.position, Quaternion.identity);
+        towerClone.transform.parent = towerParent.transform;
+
 
         towerClone.baseWaypoint = baseWaypoint;
         baseWaypoint.isPlaceable = false;
