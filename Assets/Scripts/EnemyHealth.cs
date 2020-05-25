@@ -34,9 +34,8 @@ public class EnemyHealth : MonoBehaviour {
         ParticleSystem particleSystem = deathEventClone.GetComponent<ParticleSystem>();
         AudioSource audioSource = deathEventClone.GetComponent<AudioSource>();
 
-        
         particleSystem.Play();
-        if (audioSource != null) audioSource.Play();
+        audioSource.Play();
 
         Destroy(deathEventClone, Mathf.Max(audioSource.clip.length, particleSystem.main.duration) + 0.1f);
         Destroy(gameObject);

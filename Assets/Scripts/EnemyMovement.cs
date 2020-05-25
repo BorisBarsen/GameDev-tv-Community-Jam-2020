@@ -9,8 +9,6 @@ public class EnemyMovement : MonoBehaviour {
     [Tooltip("In s")]
     [SerializeField] float travelTimePerBlock = 3f;
 
-    bool stop = false; //TODO remove
-
     float timeTraveledToDestination;
 
     Vector3 from;
@@ -27,8 +25,6 @@ public class EnemyMovement : MonoBehaviour {
 
     IEnumerator UpdateDestination(List<Waypoint> path)
     {
-        print("Start patrol");
-
         for (int i=0; i < path.Count - 1; i++)
         {
             from = path[i].transform.position;
@@ -39,20 +35,14 @@ public class EnemyMovement : MonoBehaviour {
             yield return new WaitForSeconds(travelTimePerBlock);
         }
 
-        stop = true;
-
         GetComponent<EnemyHealth>().KillEnemy();
-        print("End patrol");
     }
 
     private void Update()
     {
-        if (!stop)
-        {
-            float distanceThisFrame = timeTraveledToDestination / travelTimePerBlock;
-            transform.position = from + (travelPath * distanceThisFrame);
+        float distanceThisFrame = timeTraveledToDestination / travelTimePerBlock;
+        transform.position = from + (travelPath * distanceThisFrame);
 
-            timeTraveledToDestination += Time.deltaTime;
-        }
+        timeTraveledToDestination += Time.deltaTime;
     }
 }
