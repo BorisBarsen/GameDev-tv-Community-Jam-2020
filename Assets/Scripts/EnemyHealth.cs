@@ -17,7 +17,7 @@ public class EnemyHealth : MonoBehaviour {
 
         if (health <= 0)
         {
-            if (!dying) DeathEvent();            
+            if (!dying) KillEnemy();            
         }
     }
 
@@ -26,7 +26,7 @@ public class EnemyHealth : MonoBehaviour {
         health -= damagePerHit;
     }
 
-    private void DeathEvent()
+    public void KillEnemy()
     {
         dying = true;
 
