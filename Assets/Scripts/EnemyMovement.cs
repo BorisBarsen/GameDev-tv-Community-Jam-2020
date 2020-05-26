@@ -6,43 +6,39 @@ using UnityEngine;
 [SelectionBase]
 public class EnemyMovement : MonoBehaviour {
 
-    [Tooltip("In s")]
-    [SerializeField] float travelTimePerBlock = 3f;
+    [SerializeField] float baseSpeed = 20f;
+    [SerializeField] float speedFactor = 1f;
 
-    float timeTraveledToDestination;
-
-    Vector3 from;
-    Vector3 to;
-
+    List<Waypoint> path;
+    Vector3 target;
     Vector3 travelPath;
+
+    // Counter
+    int waypointsPassed = 0;
 
     // Use this for initialization
     void Start () {
         PathFinder pathfinder = FindObjectOfType<PathFinder>();
-        var path = pathfinder.GetPath();
-        StartCoroutine(UpdateDestination(path));
-    }
-
-    IEnumerator UpdateDestination(List<Waypoint> path)
-    {
-        for (int i=0; i < path.Count - 1; i++)
-        {
-            from = path[i].transform.position;
-            to = path[i+1].transform.position;
-            travelPath = to - from;
-
-            timeTraveledToDestination = 0f;
-            yield return new WaitForSeconds(travelTimePerBlock);
-        }
-
-        GetComponent<EnemyHealth>().KillEnemy();
+        path = pathfinder.GetPath();
+        target = path[++waypointsPassed].transform.position;
     }
 
     private void Update()
     {
-        float distanceThisFrame = timeTraveledToDestination / travelTimePerBlock;
-        transform.position = from + (travelPath * distanceThisFrame);
+        float step = baseSpeed * speedFactor * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, target, step);
 
-        timeTraveledToDestination += Time.deltaTime;
+        // Check if the position of the cube and sphere are approximately equal.
+        if (Vector3.Distance(transform.position, target) < 0.001f)
+        {    
+            if (waypointsPassed == path.Count)
+            {
+                GetComponent<EnemyHealth>().KillEnemy();
+            }
+            else
+            {
+                target = path[waypointsPassed++].transform.position;
+            }
+        }
     }
 }
