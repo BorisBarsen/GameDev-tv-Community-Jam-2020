@@ -41,16 +41,19 @@ public class PathFinder : MonoBehaviour
 
     public void CreatePath()
     {
-        SetAsPath(endWaypoint);       
+        SetAsPath(endWaypoint);
+        endWaypoint.OffsetMaterial();
 
         Waypoint previous = endWaypoint.exploredFrom;
         while(previous != startWaypoint)
         {
             SetAsPath(previous);
+            previous.OffsetMaterial();
             previous = previous.exploredFrom;
         }
 
         SetAsPath(startWaypoint);
+        startWaypoint.OffsetMaterial();
 
         path.Reverse();
     }
@@ -115,7 +118,7 @@ public class PathFinder : MonoBehaviour
 
         foreach (Waypoint waypoint in waypoints)
         {
-            if (!grid.ContainsKey(waypoint.GetGridPos()))
+            if (!grid.ContainsKey(waypoint.GetGridPos()) && waypoint.isPathBlock)
             {
                 grid.Add(waypoint.GetGridPos(), waypoint);
             }

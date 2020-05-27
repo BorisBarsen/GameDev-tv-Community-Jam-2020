@@ -5,8 +5,11 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour {
     public bool discovered = false; //ok public as is a data class
     public bool isPlaceable = true;
+    public bool isPathBlock = false;
 
     public Waypoint exploredFrom;
+
+    [SerializeField] Renderer renderer;
  
     [SerializeField] Transform towers;
 
@@ -15,6 +18,12 @@ public class Waypoint : MonoBehaviour {
     Vector2Int gridPos;
 
     const int gridSize = 10;
+
+
+    public void OffsetMaterial()
+    {
+        renderer.material.SetTextureOffset("_MainTex", new Vector2(0.45f, 0f));
+    }
 
     public int GetGridSize()
     {
@@ -28,7 +37,6 @@ public class Waypoint : MonoBehaviour {
             Mathf.RoundToInt(transform.position.z / gridSize)
             );
     }
-
 
     void OnMouseOver()
     {
