@@ -44,7 +44,6 @@ public class EnemyElement : MonoBehaviour {
         else
         {
             normalizedTemp = (temperature - temperatureRange.x) / (temperatureRange.y - temperatureRange.x);
-            print(normalizedTemp);
             GetComponent<EnemyMovement>().SetSpeedFactor(normalizedTemp);
 
             LerpParticleSettings();

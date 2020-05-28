@@ -44,7 +44,20 @@ public class Waypoint : MonoBehaviour {
         {
             if (isPlaceable)
             {
-                FindObjectOfType<TowerFactory>().AddTower(this);
+                print("here");
+
+                FindObjectOfType<TowerFactory>().AddFireTower(this);
+            }
+            else
+            {
+                print("Can't place here");
+            }
+        }
+        else if(Input.GetMouseButtonDown(1)) //right click
+        {
+            if (isPlaceable)
+            {
+                FindObjectOfType<TowerFactory>().AddFrostTower(this);
             }
             else
             {

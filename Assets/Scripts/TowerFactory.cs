@@ -4,25 +4,43 @@ using UnityEngine;
 
 public class TowerFactory : MonoBehaviour {
 
-    [SerializeField] int towerLimit = 5;
-    [SerializeField] Tower towerPrefab;
+    [SerializeField] int fireTowerLimit = 5;
+    [SerializeField] int frostTowerLimit = 5;
+    [SerializeField] Tower fireTowerPrefab;
+    [SerializeField] Tower frostTowerPrefab;
     [SerializeField] Transform towerParent;
 
-    [SerializeField]Queue<Tower> towers = new Queue<Tower>();
+    [SerializeField]Queue<Tower> fireTowers = new Queue<Tower>();
+    [SerializeField]Queue<Tower> frostTowers = new Queue<Tower>();
 
-    public void AddTower(Waypoint baseWaypoint)
+    public void AddFireTower(Waypoint baseWaypoint) //Maybe create a scriptable object for elements?
     {
-        if (towers.Count < towerLimit)
+        if (fireTowers.Count < fireTowerLimit)
         {
-            InstantiateNewTower(baseWaypoint);
+            var fireTowerClone = InstantiateNewTower(baseWaypoint, fireTowerPrefab);
+            fireTowers.Enqueue(fireTowerClone);
         }
         else
         {
-            MoveExistingTower(baseWaypoint);
+            MoveExistingTower(baseWaypoint, fireTowers);
         }
     }
 
-    private void InstantiateNewTower(Waypoint baseWaypoint)
+    public void AddFrostTower(Waypoint baseWaypoint)
+    {
+        if (frostTowers.Count < frostTowerLimit)
+        {
+            var frostTowerClone = InstantiateNewTower(baseWaypoint, frostTowerPrefab);
+            fireTowers.Enqueue(frostTowerClone);
+        }
+        else
+        {
+            MoveExistingTower(baseWaypoint, fireTowers);
+        }
+    }
+
+
+    private Tower InstantiateNewTower(Waypoint baseWaypoint, Tower towerPrefab)
     {
         var towerClone = Instantiate(towerPrefab, baseWaypoint.transform.position, Quaternion.identity);
         towerClone.transform.parent = towerParent;
@@ -31,10 +49,12 @@ public class TowerFactory : MonoBehaviour {
         towerClone.baseWaypoint = baseWaypoint;
         baseWaypoint.isPlaceable = false;
 
-        towers.Enqueue(towerClone);
+        return towerClone;
+
+        //towers.Enqueue(towerClone);
     }
 
-    private void MoveExistingTower(Waypoint newBaseWaypoint)
+    private void MoveExistingTower(Waypoint newBaseWaypoint, Queue<Tower> towers)
     {
         Tower tower = towers.Dequeue();
 
