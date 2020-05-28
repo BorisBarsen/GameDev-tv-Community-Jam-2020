@@ -23,7 +23,7 @@ public class Tower : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        ShootAtClosestEnemyInRange();
+        //ShootAtClosestEnemyInRange();
     }
 
     private void ShootAtClosestEnemyInRange()
@@ -63,5 +63,10 @@ public class Tower : MonoBehaviour {
         }
         
         return closestEnemyInRange;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        ShootAtClosestEnemyInRange();
     }
 }
