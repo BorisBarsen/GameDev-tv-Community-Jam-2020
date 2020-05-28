@@ -10,12 +10,19 @@ public class Tower : MonoBehaviour {
 
     [SerializeField] float gunRange = 30;
 
+    [Tooltip("In s")]
+    [SerializeField] [Range(0f, 60f)] float cooldown = 30;
+
+    [SerializeField] float cooldownTimer = 0;
+
     public Waypoint baseWaypoint;
+
+
 
     // State
     GameObject targetEnemy;
 
-    public void remove()
+    public void remove() //TODO never called?
     {
         Destroy(gameObject);
     }
@@ -23,7 +30,29 @@ public class Tower : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        //ShootAtClosestEnemyInRange();
+        DecreaseCooldown();
+
+        var closestEnemyInRange = FindClosestEnemyInRange();
+        if (cooldownTimer == 0 && closestEnemyInRange)
+        {
+            print("SHOOT!");
+            gun.Play();
+            objectToPan.LookAt(closestEnemyInRange.transform);
+            cooldownTimer = cooldown;
+        }
+        //else
+        //{
+        //    gun.Stop();
+        //}
+    }
+
+    private void DecreaseCooldown()
+    {
+        if (cooldownTimer == 0) return;
+
+        cooldownTimer -= Time.deltaTime;
+
+        if (cooldownTimer < 0) cooldownTimer = 0;
     }
 
     private void ShootAtClosestEnemyInRange()
@@ -63,10 +92,5 @@ public class Tower : MonoBehaviour {
         }
         
         return closestEnemyInRange;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        ShootAtClosestEnemyInRange();
     }
 }
