@@ -31,11 +31,11 @@ public class TowerFactory : MonoBehaviour {
         if (frostTowers.Count < frostTowerLimit)
         {
             var frostTowerClone = InstantiateNewTower(baseWaypoint, frostTowerPrefab);
-            fireTowers.Enqueue(frostTowerClone);
+            frostTowers.Enqueue(frostTowerClone);
         }
         else
         {
-            MoveExistingTower(baseWaypoint, fireTowers);
+            MoveExistingTower(baseWaypoint, frostTowers);
         }
     }
 
