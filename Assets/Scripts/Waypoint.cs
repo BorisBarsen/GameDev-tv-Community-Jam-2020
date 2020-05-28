@@ -46,8 +46,6 @@ public class Waypoint : MonoBehaviour {
         {
             if (isPlaceable)
             {
-                print("here");
-
                 FindObjectOfType<TowerFactory>().AddFireTower(this);
             }
             else
