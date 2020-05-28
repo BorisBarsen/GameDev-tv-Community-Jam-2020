@@ -14,6 +14,7 @@ public class Tower : MonoBehaviour {
     [SerializeField] [Range(0f, 60f)] float cooldown = 30;
 
     [SerializeField] float cooldownTimer = 0;
+    [SerializeField] float tempChange = 0f;
 
     public Waypoint baseWaypoint;
 
@@ -35,7 +36,6 @@ public class Tower : MonoBehaviour {
         var closestEnemyInRange = FindClosestEnemyInRange();
         if (cooldownTimer == 0 && closestEnemyInRange)
         {
-            print("SHOOT!");
             gun.Play();
             objectToPan.LookAt(closestEnemyInRange.transform);
             cooldownTimer = cooldown;
@@ -92,5 +92,10 @@ public class Tower : MonoBehaviour {
         }
         
         return closestEnemyInRange;
+    }
+
+    public float GetTempChange()
+    {
+        return tempChange;
     }
 }

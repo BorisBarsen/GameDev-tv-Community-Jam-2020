@@ -17,6 +17,13 @@ public class EnemyMovement : MonoBehaviour {
     // Counter
     int waypointsPassed = 0;
 
+    public void SetSpeedFactor(float factor)
+    {
+        if (speedFactor < 0 || speedFactor > 1) Debug.LogWarning("Speed factor set out of range!(" + factor + ")");
+
+        speedFactor = factor;
+    }
+
     // Use this for initialization
     void Start () {
         PathFinder pathfinder = FindObjectOfType<PathFinder>();

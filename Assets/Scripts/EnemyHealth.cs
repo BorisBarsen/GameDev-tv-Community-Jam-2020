@@ -9,11 +9,21 @@ public class EnemyHealth : MonoBehaviour {
 
     [SerializeField] GameObject deathEvent;
 
+    EnemyElement element;
+
     bool dying = false;
+
+    private void Start()
+    {
+        element = GetComponent<EnemyElement>();
+    }
 
     private void OnParticleCollision(GameObject other)
     {
-        takeDamage();
+        //takeDamage();
+        //ice 0.3
+        //fire 0.05
+        element.ChangeTemp(other.GetComponentInParent<Tower>().GetTempChange()); //TODO have the rane that this script passes match the one used in the object
 
         if (health <= 0)
         {

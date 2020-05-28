@@ -21,7 +21,6 @@ public class FriendlyBase : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        print("The base is beeing attacked!");
         lifes--;
         lifesText.text = lifes.ToString();
 

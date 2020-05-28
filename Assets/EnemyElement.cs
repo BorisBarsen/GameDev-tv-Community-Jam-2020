@@ -5,42 +5,59 @@ using UnityEngine;
 public class EnemyElement : MonoBehaviour {
 
     [Range (-3, 3)]
-    [SerializeField] int temperature = 0;
+    [SerializeField] float temperature = 0;
     [SerializeField] ParticleSystem particleSystem;
 
+    [SerializeField] float hitChangeFactor;
+
+    [SerializeField] Vector2 temperatureRange = new Vector2(-3f, 3f);
+    [SerializeField] Vector2 particleStartSpeedRange = new Vector2(3f, 15f);
+    [SerializeField] Vector2 particleSimulationSpeedRange = new Vector2(0.1f, 1.3f);
+
     ParticleSystem.MainModule particleSystemMain;
-    int oldTemp = 0;
+    float oldTemp = 0;
+
+    float particleStartSpeed = 9f;
+    float particleSimulationSpeed = 0.7f;
+
+    float normalizedTemp;
+    float tempLerpValue;
 
 	// Use this for initialization
 	void Start () {
         particleSystemMain = particleSystem.main;
-        particleSystemMain.startSpeed = 9f;
-        particleSystemMain.simulationSpeed = 0.7f;
+        particleSystemMain.startSpeed = particleStartSpeed;
+        particleSystemMain.simulationSpeed = particleSimulationSpeed;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (temperature < oldTemp && temperature >= -3)
+
+    public void ChangeTemp(float amount)
+    {
+        temperature += amount;
+
+        if (temperature < temperatureRange.x) temperature = temperatureRange.x;
+        //if (temperature > temperatureRange.y) temperature = temperatureRange.y;//so it can explode after max reached
+
+        if (temperature >= temperatureRange.y)
         {
-            oldTemp = temperature;
-            TempDown();
+            GetComponent<EnemyHealth>().KillEnemy();
         }
-        else if (temperature > oldTemp && temperature <= 3) //TODO make magic number to limit
+        else
         {
-            oldTemp = temperature;
-            TempUp();
-        }        
-	}
+            normalizedTemp = (temperature - temperatureRange.x) / (temperatureRange.y - temperatureRange.x);
+            print(normalizedTemp);
+            GetComponent<EnemyMovement>().SetSpeedFactor(normalizedTemp);
 
-    private void TempDown()
-    {
-        particleSystemMain.startSpeed = particleSystemMain.startSpeed.constant - 2;
-        particleSystemMain.simulationSpeed -= 0.2f;
+            LerpParticleSettings();
+
+            particleSystemMain.startSpeed = particleStartSpeed;
+            particleSystemMain.simulationSpeed = particleSimulationSpeed;
+        }
+
     }
 
-    private void TempUp()
+    private void LerpParticleSettings()
     {
-        particleSystemMain.startSpeed = particleSystemMain.startSpeed.constant + 2;
-        particleSystemMain.simulationSpeed += 0.2f;
+        particleStartSpeed = Mathf.Lerp(particleStartSpeedRange.x, particleStartSpeedRange.y, normalizedTemp);
+        particleSimulationSpeed = Mathf.Lerp(particleSimulationSpeedRange.x, particleSimulationSpeedRange.y, normalizedTemp);
     }
 }
