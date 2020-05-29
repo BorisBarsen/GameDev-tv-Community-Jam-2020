@@ -16,6 +16,8 @@ public class EnemyMovement : MonoBehaviour {
     List<Waypoint> path;
     Vector3 target;
 
+    bool dying = false;
+
     // Counter
     int waypointsPassed = 0;
 
@@ -30,6 +32,8 @@ public class EnemyMovement : MonoBehaviour {
     void Start () {
         PathFinder pathfinder = FindObjectOfType<PathFinder>();
         path = pathfinder.GetPath();
+        if (waypointsPassed < 0) waypointsPassed = 0; // Just for safety
+        if (waypointsPassed < 0) waypointsPassed = 0; // Just for safety
         target = path[++waypointsPassed].transform.position;
     }
 
@@ -39,7 +43,7 @@ public class EnemyMovement : MonoBehaviour {
         {
             for (int i = 0; i < splitAmount; i++)
             {
-                var enemyChild = Instantiate(agentEnemyPrefab, masterPosition + new Vector3(i*-10, i*10, i*10), Quaternion.identity);
+                var enemyChild = Instantiate(agentEnemyPrefab, masterPosition + new Vector3(i*-10, 0f, i*10), Quaternion.identity);
                 enemyChild.GetComponent<EnemyMovement>().InheritValues(target, waypointsPassed);
             }
         }
@@ -47,12 +51,13 @@ public class EnemyMovement : MonoBehaviour {
 
     private void Update()
     {
+
         float step = baseSpeed * speedFactor * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, target, step);
 
         // Check if the position of the cube and sphere are approximately equal.
         if (Vector3.Distance(transform.position, target) < 0.001f)
-        {    
+        {
             if (waypointsPassed == path.Count)
             {
                 GetComponent<EnemyHealth>().KillEnemy();
@@ -67,6 +72,6 @@ public class EnemyMovement : MonoBehaviour {
     private void InheritValues(Vector3 position, int afterWaypoint)
     {
         target = position;
-        waypointsPassed = afterWaypoint;
+        waypointsPassed = afterWaypoint - 2;
     }
 }

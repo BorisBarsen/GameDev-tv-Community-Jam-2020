@@ -14,25 +14,38 @@ public class TowerFactory : MonoBehaviour {
     [SerializeField] Text towerCounterText;
     //[SerializeField] Text frostTowerCounterText;
 
-    Queue<Tower> fireTowerQueue = new Queue<Tower>();
-    Queue<Tower> frostTowerQueue = new Queue<Tower>();
+    List<Tower> fireTowers = new List<Tower>();
+    List<Tower> frostTowers = new List<Tower>();
 
     //int fireTowersAmount;
     //int frostTowersAmount;
 
     int towerChosen;
+    string towersInfo;
 
     private void Start()
     {
         towerChosen = 1;
+        StartCoroutine(UpdateTowersInfo());
+    }
+
+    IEnumerator UpdateTowersInfo()
+    {
+
+        while (true)
+        {
+            yield return new WaitForSeconds(0.3f);
+            towerCounterText.text = towersInfo;
+        }
     }
 
     private void Update()
     {
-        string towersInfo =
-                "Fire Towers left: " + (fireTowerLimit - fireTowerQueue.Count) +
-                "\nFrost Towers left: " + (frostTowerLimit - frostTowerQueue.Count) +
-                "\n\nCurrently placing: ";
+
+        towersInfo =
+            "Fire Towers left: " + (fireTowerLimit - fireTowers.Count) +
+            "\nFrost Towers left: " + (frostTowerLimit - frostTowers.Count) +
+            "\n\nCurrently placing: ";
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -52,8 +65,6 @@ public class TowerFactory : MonoBehaviour {
                 towersInfo += "Frost tower";
                 break;
         }
-
-        towerCounterText.text = towersInfo;
     }
 
     public void AddTower(Waypoint baseWaypoint)
@@ -71,29 +82,33 @@ public class TowerFactory : MonoBehaviour {
 
     public void AddFireTower(Waypoint baseWaypoint) //Maybe create a scriptable object for elements?
     {
-        if (fireTowerQueue.Count < fireTowerLimit)
+        if (fireTowers.Count < fireTowerLimit)
         {
             var fireTowerClone = InstantiateNewTower(baseWaypoint, fireTowerPrefab);
             fireTowerClone.SetElement("Fire");
-            fireTowerQueue.Enqueue(fireTowerClone);
+            fireTowers.Add(fireTowerClone);
         }
         else
         {
-            MoveExistingTower(baseWaypoint, fireTowerQueue);
+            Tower tower = fireTowers[0];
+            fireTowers.RemoveAt(0);
+            fireTowers.Add(MoveExistingTower(baseWaypoint, tower));
         }
     }
 
     public void AddFrostTower(Waypoint baseWaypoint)
     {
-        if (frostTowerQueue.Count < frostTowerLimit)
+        if (frostTowers.Count < frostTowerLimit)
         {
             var frostTowerClone = InstantiateNewTower(baseWaypoint, frostTowerPrefab);
             frostTowerClone.SetElement("Frost");
-            frostTowerQueue.Enqueue(frostTowerClone);
+            frostTowers.Insert(0, frostTowerClone);
         }
         else
         {
-            MoveExistingTower(baseWaypoint, frostTowerQueue);
+            Tower tower = frostTowers[0];
+            frostTowers.RemoveAt(0);
+            frostTowers.Add(MoveExistingTower(baseWaypoint, tower));
         }
     }
 
@@ -125,10 +140,8 @@ public class TowerFactory : MonoBehaviour {
 
     //}
 
-    private void MoveExistingTower(Waypoint newBaseWaypoint, Queue<Tower> towers)
-    {
-        Tower tower = towers.Dequeue();
-
+    private Tower MoveExistingTower(Waypoint newBaseWaypoint, Tower tower)
+    {   
         Waypoint oldBaseWaypoint = tower.baseWaypoint;
         tower.baseWaypoint = newBaseWaypoint;
 
@@ -137,20 +150,22 @@ public class TowerFactory : MonoBehaviour {
 
         tower.transform.position = newBaseWaypoint.transform.position;
 
-        towers.Enqueue(tower);
+        return tower;
     }
 
-    public void RemoveTower(string towerElement)
+    public void RemoveTower(Tower tower)
     {
-        switch(towerElement)
+        switch(tower.GetElement())
         {
             case "Fire":
-                var tower = fireTowerQueue.Dequeue();
-                Destroy(tower.gameObject);
+                fireTowers.Remove(tower);
                 break;
 
             case "Frost":
+                frostTowers.Remove(tower);
                 break;
         }
+
+        Destroy(tower.gameObject);
     }
 }

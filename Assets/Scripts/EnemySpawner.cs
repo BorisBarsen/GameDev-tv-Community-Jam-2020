@@ -52,9 +52,6 @@ public class EnemySpawner : MonoBehaviour {
 
         currentWave++;
         enemiesLeft = enmiesPerWave[currentWave];
-
-
-
     }
 
     IEnumerator RunSpawner()

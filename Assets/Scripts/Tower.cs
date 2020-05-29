@@ -25,6 +25,11 @@ public class Tower : MonoBehaviour {
         element = name;
     }
 
+    public string GetElement()
+    {
+        return element;
+    }
+
     // State
     GameObject targetEnemy;
 
@@ -109,7 +114,8 @@ public class Tower : MonoBehaviour {
         print("Hello");
         if (Input.GetMouseButtonDown(1))
         {
-            transform.parent.GetComponent<TowerFactory>().RemoveTower(element);
+            transform.parent.GetComponent<TowerFactory>().RemoveTower(this);
+            baseWaypoint.isPlaceable = true;
         }
     }
 }
