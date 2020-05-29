@@ -6,17 +6,21 @@ using UnityEngine.UI;
 public class SeasonalCycle : MonoBehaviour {
 
     [SerializeField] float timeBetweenSeasons = 5f;
+    [SerializeField] GameObject friendlyBase;
+    //[SerializeField] GameObject enemiesList;
 
     [SerializeField] Season winter; 
     [SerializeField] Season spring; 
     [SerializeField] Season summer; 
     [SerializeField] Season autumn;
 
-    [SerializeField] Text seasonText;
+    [SerializeField] Text seasonText;    
 
     Season season;
 
     float currentLerpTime;
+
+    public float temperature = 0f;
 
     // Use this for initialization
     void Start () {
@@ -46,6 +50,7 @@ public class SeasonalCycle : MonoBehaviour {
 
     private void StartNextSeason()
     {
+        season.GetFriendlyBaseParticles().Stop();
         season = season.next;
         LoadNewSeason();
     }
@@ -53,9 +58,13 @@ public class SeasonalCycle : MonoBehaviour {
     private void LoadNewSeason()
     {
         print("Loading " + season.name);
+        temperature = season.temperature;
         SwitchTextures(season.GetTextures(), season.next.GetTextures());
         print(season);
         seasonText.text = season.name;
+        var friendlyBaseParticles = season.GetFriendlyBaseParticles();
+        friendlyBaseParticles.transform.position = friendlyBase.transform.position;
+        friendlyBaseParticles.Play();
     }
 
     private void SwitchTextures(List<Texture> currentTextures, List<Texture> nextTextures)

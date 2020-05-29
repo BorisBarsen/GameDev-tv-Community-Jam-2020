@@ -18,7 +18,12 @@ public class Tower : MonoBehaviour {
 
     public Waypoint baseWaypoint;
 
+    private string element;
 
+    public void SetElement(string name)
+    {
+        element = name;
+    }
 
     // State
     GameObject targetEnemy;
@@ -97,5 +102,14 @@ public class Tower : MonoBehaviour {
     public float GetTempChange()
     {
         return tempChange;
+    }
+
+    private void OnMouseOver()
+    {
+        print("Hello");
+        if (Input.GetMouseButtonDown(1))
+        {
+            transform.parent.GetComponent<TowerFactory>().RemoveTower(element);
+        }
     }
 }

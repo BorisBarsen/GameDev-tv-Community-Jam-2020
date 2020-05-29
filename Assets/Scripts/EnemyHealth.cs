@@ -4,41 +4,30 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour {
 
-    [SerializeField] int health = 100;
-    [SerializeField] int damagePerHit = 5;
-
     [SerializeField] GameObject deathEvent;
-
-    EnemyElement element;
+    EnemyTemperature temperature;
 
     bool dying = false;
 
     private void Start()
     {
-        element = GetComponent<EnemyElement>();
+        temperature = GetComponent<EnemyTemperature>();
     }
 
     private void OnParticleCollision(GameObject other)
     {
-        //takeDamage();
-        //ice 0.3
-        //fire 0.05
-        element.ChangeTemp(other.GetComponentInParent<Tower>().GetTempChange()); //TODO have the rane that this script passes match the one used in the object
-
-        if (health <= 0)
+        if (other)
         {
-            if (!dying) KillEnemy();            
+            temperature.ChangeTemp(other.GetComponentInParent<Tower>().GetTempChange()); //TODO have the rane that this script passes match the one used in the object
         }
     }
 
-    private void takeDamage()
-    {
-        health -= damagePerHit;
-    }
 
     public void KillEnemy()
     {
         dying = true;
+
+        GetComponent<EnemyMovement>().Split(transform.position);
 
         GameObject deathEventClone = Instantiate(deathEvent, transform.position, Quaternion.identity) as GameObject;
         ParticleSystem particleSystem = deathEventClone.GetComponent<ParticleSystem>();

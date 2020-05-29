@@ -6,13 +6,15 @@ using UnityEngine;
 [SelectionBase]
 public class EnemyMovement : MonoBehaviour {
 
+    [SerializeField] GameObject agentEnemyPrefab;
+    [SerializeField] int splitAmount = 2;
+
     [SerializeField] float baseSpeed = 20f;
     [Range(0f, 1f)]
     [SerializeField] float speedFactor = 1f;
 
     List<Waypoint> path;
     Vector3 target;
-    Vector3 travelPath;
 
     // Counter
     int waypointsPassed = 0;
@@ -29,6 +31,18 @@ public class EnemyMovement : MonoBehaviour {
         PathFinder pathfinder = FindObjectOfType<PathFinder>();
         path = pathfinder.GetPath();
         target = path[++waypointsPassed].transform.position;
+    }
+
+    public void Split(Vector3 masterPosition)
+    {
+        if (agentEnemyPrefab)
+        {
+            for (int i = 0; i < splitAmount; i++)
+            {
+                var enemyChild = Instantiate(agentEnemyPrefab, masterPosition + new Vector3(i*-10, i*10, i*10), Quaternion.identity);
+                enemyChild.GetComponent<EnemyMovement>().InheritValues(target, waypointsPassed);
+            }
+        }
     }
 
     private void Update()
@@ -48,5 +62,11 @@ public class EnemyMovement : MonoBehaviour {
                 target = path[waypointsPassed++].transform.position;
             }
         }
+    }
+
+    private void InheritValues(Vector3 position, int afterWaypoint)
+    {
+        target = position;
+        waypointsPassed = afterWaypoint;
     }
 }

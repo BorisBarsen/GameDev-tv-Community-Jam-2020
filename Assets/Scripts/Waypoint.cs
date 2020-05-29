@@ -46,23 +46,23 @@ public class Waypoint : MonoBehaviour {
         {
             if (isPlaceable)
             {
-                FindObjectOfType<TowerFactory>().AddFireTower(this);
+                FindObjectOfType<TowerFactory>().AddTower(this);
             }
             else
             {
                 print("Can't place here");
             }
         }
-        else if(Input.GetMouseButtonDown(1)) //right click
-        {
-            if (isPlaceable)
-            {
-                FindObjectOfType<TowerFactory>().AddFrostTower(this);
-            }
-            else
-            {
-                print("Can't place here");
-            }
-        }
+        //else if(Input.GetMouseButtonDown(1)) //right click
+        //{
+        //    if (isPlaceable)
+        //    {
+        //        FindObjectOfType<TowerFactory>().RemoveTower(this);
+        //    }
+        //    else
+        //    {
+        //        print("Can't place here");
+        //    }
+        //}
     }
 }

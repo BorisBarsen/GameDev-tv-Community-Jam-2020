@@ -7,11 +7,20 @@ public class FriendlyBase : MonoBehaviour {
 
     [SerializeField] int lifes = 1;
     [SerializeField] SceneLoader sceneLoader; //TODO maybe call scene manager directly
-    [SerializeField] ParticleSystem particleSystem;
+    [SerializeField] ParticleSystem gameOverParticles;
     [SerializeField] Text lifesText;
+
+    private ParticleSystem seasonalParticles;
 
     // State
     bool gameOver = false;
+
+    public void SetSeasonalParticles(ParticleSystem particles)
+    {
+        seasonalParticles.Stop();
+        seasonalParticles = particles;
+        seasonalParticles.Play();
+    }
 
     private void Start()
     {
@@ -34,7 +43,11 @@ public class FriendlyBase : MonoBehaviour {
     private void TriggerGameOver()
     {
         print("Game Over!");
-        particleSystem.Play();
+        if (seasonalParticles)
+        {
+            seasonalParticles.Stop();
+        }
+        gameOverParticles.Play();
 
         //Invoke("LoadGameOverScene", particleSystem.main.duration);        
     }

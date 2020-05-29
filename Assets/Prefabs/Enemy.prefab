@@ -363,6 +363,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   temperature: 0
   particleSystem: {fileID: 198728011061498022}
+  seasonalCycle: {fileID: 114501292511322896, guid: 816351da70645b14e857125bc2eab30f,
+    type: 2}
   hitChangeFactor: 0
   temperatureRange: {x: -3, y: 3}
   particleStartSpeedRange: {x: 3, y: 15}
