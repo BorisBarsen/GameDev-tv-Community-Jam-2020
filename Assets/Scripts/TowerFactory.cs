@@ -48,20 +48,15 @@ public class TowerFactory : MonoBehaviour {
 
     IEnumerator UpdateTowersInfo()
     {
-
         while (true)
         {
-            yield return new WaitForSeconds(0.3f);
             towerCounterText.text = towersInfo;
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
     private void Update()
     {
-        print(fireTowerLimit);
-        print(frostTowerLimit);
-        print(waterTowerLimit);
-        print(thunderTowerLimit);
         towersInfo = "Max Fire Towers: " + (fireTowerLimit);
 
         if (Input.GetKeyDown(KeyCode.Alpha1))

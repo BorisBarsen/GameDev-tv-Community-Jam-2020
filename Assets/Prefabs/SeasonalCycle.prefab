@@ -386,7 +386,7 @@ MonoBehaviour:
   summer: {fileID: 114414084431899026}
   autumn: {fileID: 114072444958765840}
   seasonText: {fileID: 0}
-  temperature: 0
+  temperature: 3.74
 --- !u!198 &198081979438459932
 ParticleSystem:
   m_ObjectHideFlags: 1

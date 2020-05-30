@@ -50,6 +50,11 @@ public class EnemySpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if(startAtWaveSetting != 1)
+        {
+            startAtWave = startAtWaveSetting;
+        }
+
         InitializeWaves();
         StartNextWave();
 
@@ -90,7 +95,7 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(1, 0, 0 ,0),
 
-                    "End of wave 2!"
+                    "End of wave 1!"
                 ),
 
             new Wave(
@@ -106,7 +111,7 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(1, 1, 0 ,0),
 
-                    "End of wave 3\n 1+ Frost Tower\n\n Frost towers lower enemy temperature and slows them down."
+                    "End of wave 2!\n\n 1 + Frost Tower\n\n Frost towers lower enemy temperature and slows them down."
                 )
         });
 
@@ -132,15 +137,21 @@ public class EnemySpawner : MonoBehaviour {
     private void StartNextWave()
     {
         stopped = true;
+        
+        if (waves.Count > 0)
+        {
+            currentWave = waves.Dequeue();
 
-        currentWave = waves.Dequeue();
+            endOfWavePrompt.text = currentWave.text + "\n\n Press 'SPACE' to start next wave.";
 
-        endOfWavePrompt.text = currentWave.text + "\n\n Press 'SPACE' to start next wave.";
+            endOfWavePrompt.enabled = true;
 
-        endOfWavePrompt.enabled = true;
-
-        towerFactory.SetTowerLimits(currentWave.towers);
-
+            towerFactory.SetTowerLimits(currentWave.towers);
+        }
+        else
+        {
+            //TODO add win screen, credits;
+        }
     }
 
     IEnumerator RunSpawner()
