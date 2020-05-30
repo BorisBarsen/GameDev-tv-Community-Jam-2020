@@ -35,6 +35,14 @@ public class TowerFactory : MonoBehaviour {
         StartCoroutine(UpdateTowersInfo());
     }
 
+    public void SetTowerLimits(Vector4 towerFactory)
+    {
+        fireTowerLimit = (int)towerFactory.x;
+        frostTowerLimit = (int)towerFactory.y;
+        waterTowerLimit = (int)towerFactory.z;
+        thunderTowerLimit = (int)towerFactory.w;
+    }
+
     IEnumerator UpdateTowersInfo()
     {
 
