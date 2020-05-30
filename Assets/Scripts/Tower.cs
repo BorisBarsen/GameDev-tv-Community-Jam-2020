@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour {
 
+    public enum Type { Fire, Frost, Water, Thunder};
 
     [SerializeField] Transform objectToPan;
     [SerializeField] ParticleSystem gun;
@@ -16,19 +17,9 @@ public class Tower : MonoBehaviour {
     [SerializeField] float cooldownTimer = 0;
     [SerializeField] float tempChange = 0f;
 
+    public Type type;
+
     public Waypoint baseWaypoint;
-
-    private string element;
-
-    public void SetElement(string name)
-    {
-        element = name;
-    }
-
-    public string GetElement()
-    {
-        return element;
-    }
 
     // State
     GameObject targetEnemy;
@@ -41,19 +32,22 @@ public class Tower : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        DecreaseCooldown();
-
-        var closestEnemyInRange = FindClosestEnemyInRange();
-        if (cooldownTimer == 0 && closestEnemyInRange)
+        if (!type.Equals(Type.Water))
         {
-            gun.Play();
-            objectToPan.LookAt(closestEnemyInRange.transform);
-            cooldownTimer = cooldown;
+            DecreaseCooldown();
+
+            var closestEnemyInRange = FindClosestEnemyInRange();
+            if (cooldownTimer == 0 && closestEnemyInRange)
+            {
+                gun.Play();
+                objectToPan.LookAt(closestEnemyInRange.transform);
+                cooldownTimer = cooldown;
+            }
+            //else
+            //{
+            //    gun.Stop();
+            //}
         }
-        //else
-        //{
-        //    gun.Stop();
-        //}
     }
 
     private void DecreaseCooldown()

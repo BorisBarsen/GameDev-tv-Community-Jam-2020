@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114149356794654598}
   - component: {fileID: 114844202204373144}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -321,9 +321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea0339a26892c54880edfdfcf64fa7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 114365559123338842, guid: d618e0b03c3e7ed4b985d88d4b276e1a,
-    type: 2}
-  towers: {fileID: 0}
   discovered: 0
-  exploredFrom: {fileID: 0}
   isPlaceable: 1
+  isPathBlock: 0
+  exploredFrom: {fileID: 0}
+  renderer: {fileID: 0}
+  towers: {fileID: 0}
+  towerClone: {fileID: 0}

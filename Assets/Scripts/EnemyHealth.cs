@@ -6,19 +6,32 @@ public class EnemyHealth : MonoBehaviour {
 
     [SerializeField] GameObject deathEvent;
     EnemyTemperature temperature;
+    EnemyMovement movement;
 
     bool dying = false;
 
     private void Start()
     {
         temperature = GetComponent<EnemyTemperature>();
+        movement = GetComponent<EnemyMovement>();
     }
 
     private void OnParticleCollision(GameObject other)
     {
         if (other)
         {
-            temperature.ChangeTemp(other.GetComponentInParent<Tower>().GetTempChange()); //TODO have the rane that this script passes match the one used in the object
+            var hitFromTower = other.GetComponentInParent<Tower>();
+            if (hitFromTower.type == Tower.Type.Water)
+            {
+                temperature.wet = true;
+            }
+
+            if (hitFromTower.type == Tower.Type.Thunder)
+            {
+                movement.Stun();
+            }
+
+            temperature.ChangeTemp(hitFromTower.GetTempChange()); //TODO have the rane that this script passes match the one used in the object
         }
     }
 

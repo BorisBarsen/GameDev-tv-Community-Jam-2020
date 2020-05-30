@@ -7,8 +7,12 @@ public class TowerFactory : MonoBehaviour {
 
     [SerializeField] int fireTowerLimit = 5;
     [SerializeField] int frostTowerLimit = 5;
+    [SerializeField] int waterTowerLimit = 5;
+    [SerializeField] int thunderTowerLimit = 5;
     [SerializeField] Tower fireTowerPrefab;
     [SerializeField] Tower frostTowerPrefab;
+    [SerializeField] Tower waterTowerPrefab;
+    [SerializeField] Tower thunderTowerPrefab;
     [SerializeField] Transform towerParent;
 
     [SerializeField] Text towerCounterText;
@@ -16,6 +20,8 @@ public class TowerFactory : MonoBehaviour {
 
     List<Tower> fireTowers = new List<Tower>();
     List<Tower> frostTowers = new List<Tower>();
+    List<Tower> waterTowers = new List<Tower>();
+    List<Tower> thunderTowers = new List<Tower>();
 
     //int fireTowersAmount;
     //int frostTowersAmount;
@@ -43,8 +49,10 @@ public class TowerFactory : MonoBehaviour {
     {
 
         towersInfo =
-            "Fire Towers left: " + (fireTowerLimit - fireTowers.Count) +
-            "\nFrost Towers left: " + (frostTowerLimit - frostTowers.Count) +
+            "Max Fire Towers: " + (fireTowerLimit) +
+            "\nMax Frost Towers: " + (frostTowerLimit) +
+            "\nMax Water Towers: " + (waterTowerLimit) +
+            "\nMax Thunder Towers: " + (thunderTowerLimit) +
             "\n\nCurrently placing: ";
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -55,6 +63,14 @@ public class TowerFactory : MonoBehaviour {
         {
             towerChosen = 2;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            towerChosen = 3;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            towerChosen = 4;
+        }
 
         switch (towerChosen)
         {
@@ -63,6 +79,12 @@ public class TowerFactory : MonoBehaviour {
                 break;
             case 2:
                 towersInfo += "Frost tower";
+                break;
+            case 3:
+                towersInfo += "Water tower";
+                break;
+            case 4:
+                towersInfo += "Thunder tower";
                 break;
         }
     }
@@ -77,6 +99,12 @@ public class TowerFactory : MonoBehaviour {
             case 2:
                 AddFrostTower(baseWaypoint);
                 break;
+            case 3:
+                AddWaterTower(baseWaypoint);
+                break;
+            case 4:
+                AddThunderTower(baseWaypoint);
+                break;
         }
     }
 
@@ -85,7 +113,7 @@ public class TowerFactory : MonoBehaviour {
         if (fireTowers.Count < fireTowerLimit)
         {
             var fireTowerClone = InstantiateNewTower(baseWaypoint, fireTowerPrefab);
-            fireTowerClone.SetElement("Fire");
+            fireTowerClone.type = Tower.Type.Fire;
             fireTowers.Add(fireTowerClone);
         }
         else
@@ -101,7 +129,7 @@ public class TowerFactory : MonoBehaviour {
         if (frostTowers.Count < frostTowerLimit)
         {
             var frostTowerClone = InstantiateNewTower(baseWaypoint, frostTowerPrefab);
-            frostTowerClone.SetElement("Frost");
+            frostTowerClone.type = Tower.Type.Frost;
             frostTowers.Insert(0, frostTowerClone);
         }
         else
@@ -112,6 +140,37 @@ public class TowerFactory : MonoBehaviour {
         }
     }
 
+    public void AddWaterTower(Waypoint baseWaypoint)
+    {
+        if (waterTowers.Count < waterTowerLimit)
+        {
+            var waterTowerClone = InstantiateNewTower(baseWaypoint, waterTowerPrefab);
+            waterTowerClone.type = Tower.Type.Water;
+            waterTowers.Insert(0, waterTowerClone);
+        }
+        else
+        {
+            Tower tower = waterTowers[0];
+            waterTowers.RemoveAt(0);
+            waterTowers.Add(MoveExistingTower(baseWaypoint, tower));
+        }
+    }
+
+    public void AddThunderTower(Waypoint baseWaypoint)
+    {
+        if (thunderTowers.Count < thunderTowerLimit)
+        {
+            var thunderTowerClone = InstantiateNewTower(baseWaypoint, thunderTowerPrefab);
+            thunderTowerClone.type = Tower.Type.Thunder;
+            thunderTowers.Insert(0, thunderTowerClone);
+        }
+        else
+        {
+            Tower tower = thunderTowers[0];
+            thunderTowers.RemoveAt(0);
+            thunderTowers.Add(MoveExistingTower(baseWaypoint, tower));
+        }
+    }
 
     private Tower InstantiateNewTower(Waypoint baseWaypoint, Tower towerPrefab)
     {
@@ -124,21 +183,6 @@ public class TowerFactory : MonoBehaviour {
         
         return towerClone;
     }
-
-    //public void RemoveTower(string element)
-    //{
-    //    switch(element)
-    //    {
-    //        case "Fire":
-    //            fireTowersAmount--;
-    //            break;
-
-    //        case "Frost":
-    //            frostTowersAmount--;
-    //            break;
-    //    }
-
-    //}
 
     private Tower MoveExistingTower(Waypoint newBaseWaypoint, Tower tower)
     {   
@@ -155,14 +199,22 @@ public class TowerFactory : MonoBehaviour {
 
     public void RemoveTower(Tower tower)
     {
-        switch(tower.GetElement())
+        switch(tower.type)
         {
-            case "Fire":
+            case Tower.Type.Fire:
                 fireTowers.Remove(tower);
                 break;
 
-            case "Frost":
+            case Tower.Type.Frost:
                 frostTowers.Remove(tower);
+                break;
+
+            case Tower.Type.Water:
+                waterTowers.Remove(tower);
+                break;
+
+            case Tower.Type.Thunder:
+                thunderTowers.Remove(tower);
                 break;
         }
 

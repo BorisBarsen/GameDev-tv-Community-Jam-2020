@@ -12,11 +12,17 @@ public class EnemyMovement : MonoBehaviour {
     [SerializeField] float baseSpeed = 20f;
     [Range(0f, 1f)]
     [SerializeField] float speedFactor = 1f;
+    [SerializeField] float stunDuration;
+
+    [SerializeField] ParticleSystem stunParticles;
 
     List<Waypoint> path;
     Vector3 target;
 
     bool dying = false;
+
+    // Status effect 
+    float stunTimer; // removed in the same frame it was recieved
 
     // Counter
     int waypointsPassed = 0;
@@ -28,8 +34,15 @@ public class EnemyMovement : MonoBehaviour {
         speedFactor = factor;
     }
 
+    public void Stun()
+    {
+        stunParticles.Play();
+        stunTimer = stunDuration;
+    }
+
     // Use this for initialization
     void Start () {
+        stunTimer = 0;
         PathFinder pathfinder = FindObjectOfType<PathFinder>();
         path = pathfinder.GetPath();
         if (waypointsPassed < 0) waypointsPassed = 0; // Just for safety
@@ -51,21 +64,30 @@ public class EnemyMovement : MonoBehaviour {
 
     private void Update()
     {
-
-        float step = baseSpeed * speedFactor * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, target, step);
-
-        // Check if the position of the cube and sphere are approximately equal.
-        if (Vector3.Distance(transform.position, target) < 0.001f)
+        if (stunTimer == 0)
         {
-            if (waypointsPassed == path.Count)
+            if (stunParticles) stunParticles.Stop();
+
+            float step = baseSpeed * speedFactor * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, target, step);
+
+            // Check if the position of the cube and sphere are approximately equal.
+            if (Vector3.Distance(transform.position, target) < 0.001f)
             {
-                GetComponent<EnemyHealth>().KillEnemy();
+                if (waypointsPassed == path.Count)
+                {
+                    GetComponent<EnemyHealth>().KillEnemy();
+                }
+                else
+                {
+                    target = path[waypointsPassed++].transform.position;
+                }
             }
-            else
-            {
-                target = path[waypointsPassed++].transform.position;
-            }
+        }
+        else //Stunned
+        {
+            stunTimer -= Time.deltaTime;
+            if (stunTimer < 0) stunTimer = 0;
         }
     }
 

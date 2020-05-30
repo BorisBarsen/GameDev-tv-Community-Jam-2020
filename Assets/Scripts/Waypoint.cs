@@ -40,8 +40,6 @@ public class Waypoint : MonoBehaviour {
 
     void OnMouseOver()
     {
-        print("there");
-
         if (Input.GetMouseButtonDown(0)) // Left click
         {
             if (isPlaceable)

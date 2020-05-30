@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyTemperature : MonoBehaviour {
 
+    //enum
+
     [Range (-3, 3)]
     [SerializeField] float temperature = 0;
     [SerializeField] ParticleSystem particleSystem;
@@ -17,6 +19,7 @@ public class EnemyTemperature : MonoBehaviour {
     [SerializeField] Vector2 particleStartSpeedRange = new Vector2(3f, 15f);
     [SerializeField] Vector2 particleSimulationSpeedRange = new Vector2(0.1f, 1.3f);
 
+    [SerializeField]
     float seasonalTemp = 0f; 
 
     ParticleSystem.MainModule particleSystemMain;
@@ -28,10 +31,14 @@ public class EnemyTemperature : MonoBehaviour {
     float normalizedTemp;
     float tempLerpValue;
 
+    // Status effects
+    public bool wet;
+
     public void SetSeasonalTemp(float amount)
     {
         seasonalTemp = amount;
     }
+
 
     // Use this for initialization
     void Start () {
@@ -53,6 +60,8 @@ public class EnemyTemperature : MonoBehaviour {
 
     public void ChangeTemp(float amount)
     {
+        if (amount < 0 && wet) amount *= 2;
+
         temperature += amount * tempChangeFactor;
 
         if (temperature < temperatureRange.x) temperature = temperatureRange.x;
