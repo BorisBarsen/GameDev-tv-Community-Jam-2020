@@ -127,8 +127,6 @@ public class PathFinder : MonoBehaviour
                 Debug.LogWarning("Skipping overlapping block " + waypoint);
             }
         }
-
-        print("Loaded " + grid.Count + " blocks");        
     }
 
 }

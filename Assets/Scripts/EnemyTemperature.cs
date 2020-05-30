@@ -9,7 +9,7 @@ public class EnemyTemperature : MonoBehaviour {
     [Range (-3, 3)]
     [SerializeField] float temperature = 0;
     [SerializeField] ParticleSystem particleSystem;
-    [SerializeField] SeasonalCycle seasonalCycle;
+    SeasonalCycle seasonalCycle;
 
     [SerializeField] float hitChangeFactor;
 
@@ -34,14 +34,11 @@ public class EnemyTemperature : MonoBehaviour {
     // Status effects
     public bool wet;
 
-    public void SetSeasonalTemp(float amount)
-    {
-        seasonalTemp = amount;
-    }
-
 
     // Use this for initialization
     void Start () {
+        seasonalCycle = FindObjectOfType<SeasonalCycle>();
+
         particleSystemMain = particleSystem.main;
         particleSystemMain.startSpeed = particleStartSpeed;
         particleSystemMain.simulationSpeed = particleSimulationSpeed;
@@ -54,7 +51,7 @@ public class EnemyTemperature : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            ChangeTemp(seasonalTemp);
+            ChangeTemp(seasonalCycle.temperature);
         }
     }
 

@@ -57,7 +57,6 @@ public class SeasonalCycle : MonoBehaviour {
 
     private void LoadNewSeason()
     {
-        print("Loading " + season.name);
         temperature = season.temperature;
         SwitchTextures(season.GetTextures(), season.next.GetTextures());
         seasonText.text = season.name;

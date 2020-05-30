@@ -87,7 +87,6 @@ public class Tower : MonoBehaviour {
 
     private void OnMouseOver()
     {
-        print("Hello");
         if (Input.GetMouseButtonDown(1))
         {
             transform.parent.GetComponent<TowerFactory>().RemoveTower(this);
