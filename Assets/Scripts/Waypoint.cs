@@ -9,9 +9,9 @@ public class Waypoint : MonoBehaviour {
 
     public Waypoint exploredFrom;
 
-    [SerializeField] Renderer renderer;
- 
+    [SerializeField] Renderer renderer; 
     [SerializeField] Transform towers;
+
 
     public Tower towerClone;
 

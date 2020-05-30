@@ -60,7 +60,6 @@ public class SeasonalCycle : MonoBehaviour {
         print("Loading " + season.name);
         temperature = season.temperature;
         SwitchTextures(season.GetTextures(), season.next.GetTextures());
-        print(season);
         seasonText.text = season.name;
         var friendlyBaseParticles = season.GetFriendlyBaseParticles();
         friendlyBaseParticles.transform.position = friendlyBase.transform.position;

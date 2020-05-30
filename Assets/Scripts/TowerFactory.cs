@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class TowerFactory : MonoBehaviour {
 
+    [SerializeField] FriendlyBase friendlyBase;
+
     [SerializeField] int fireTowerLimit = 5;
     [SerializeField] int frostTowerLimit = 5;
     [SerializeField] int waterTowerLimit = 5;
     [SerializeField] int thunderTowerLimit = 5;
+
     [SerializeField] Tower fireTowerPrefab;
     [SerializeField] Tower frostTowerPrefab;
     [SerializeField] Tower waterTowerPrefab;
@@ -55,30 +58,46 @@ public class TowerFactory : MonoBehaviour {
 
     private void Update()
     {
-
-        towersInfo =
-            "Max Fire Towers: " + (fireTowerLimit) +
-            "\nMax Frost Towers: " + (frostTowerLimit) +
-            "\nMax Water Towers: " + (waterTowerLimit) +
-            "\nMax Thunder Towers: " + (thunderTowerLimit) +
-            "\n\nCurrently placing: ";
+        print(fireTowerLimit);
+        print(frostTowerLimit);
+        print(waterTowerLimit);
+        print(thunderTowerLimit);
+        towersInfo = "Max Fire Towers: " + (fireTowerLimit);
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             towerChosen = 1;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+
+
+        if (frostTowerLimit != 0)
         {
-            towerChosen = 2;
+            towersInfo += "\nMax Frost Towers: " + (frostTowerLimit);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                towerChosen = 2;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+
+        if (waterTowerLimit != 0)
         {
-            towerChosen = 3;
+            towersInfo += "\nMax Water Towers: " + (waterTowerLimit);
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                towerChosen = 3;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+
+        if (thunderTowerLimit != 0)
         {
-            towerChosen = 4;
+            towersInfo += "\nMax Thunder Towers: " + (thunderTowerLimit);
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                towerChosen = 4;
+            }
         }
+
+        towersInfo += "\n\nCurrently placing: ";
 
         switch (towerChosen)
         {
@@ -99,20 +118,23 @@ public class TowerFactory : MonoBehaviour {
 
     public void AddTower(Waypoint baseWaypoint)
     {
-        switch(towerChosen)
+        if (!friendlyBase.gameOver)
         {
-            case 1:
-                AddFireTower(baseWaypoint);
-                break;
-            case 2:
-                AddFrostTower(baseWaypoint);
-                break;
-            case 3:
-                AddWaterTower(baseWaypoint);
-                break;
-            case 4:
-                AddThunderTower(baseWaypoint);
-                break;
+            switch (towerChosen)
+            {
+                case 1:
+                    AddFireTower(baseWaypoint);
+                    break;
+                case 2:
+                    AddFrostTower(baseWaypoint);
+                    break;
+                case 3:
+                    AddWaterTower(baseWaypoint);
+                    break;
+                case 4:
+                    AddThunderTower(baseWaypoint);
+                    break;
+            }
         }
     }
 

@@ -56,20 +56,6 @@ public class Tower : MonoBehaviour {
         if (cooldownTimer < 0) cooldownTimer = 0;
     }
 
-    //private void ShootAtClosestEnemyInRange()
-    //{
-    //    targetEnemy = FindClosestEnemyInRange();
-    //    if (targetEnemy)
-    //    {
-    //        objectToPan.LookAt(targetEnemy.transform);
-    //        gun.Play(); 
-    //    }
-    //    else
-    //    {
-    //        gun.Stop();
-    //    }
-    //}
-
     private GameObject FindClosestEnemyInRange()
     {
         GameObject closestEnemyInRange = null;

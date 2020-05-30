@@ -9,11 +9,14 @@ public class FriendlyBase : MonoBehaviour {
     [SerializeField] SceneLoader sceneLoader; //TODO maybe call scene manager directly
     [SerializeField] ParticleSystem gameOverParticles;
     [SerializeField] Text lifesText;
+    [SerializeField] Text gameOverPrompt;
+    [SerializeField] EnemySpawner enemySpawner;
 
     private ParticleSystem seasonalParticles;
 
     // State
-    bool gameOver = false;
+    public bool gameOver = false;
+    bool continuesAvailable;
 
     public void SetSeasonalParticles(ParticleSystem particles)
     {
@@ -24,6 +27,7 @@ public class FriendlyBase : MonoBehaviour {
 
     private void Start()
     {
+        gameOverPrompt.enabled = false;
         lifesText.text = lifes.ToString();
     }
 
@@ -36,25 +40,60 @@ public class FriendlyBase : MonoBehaviour {
         if (lifes <= 0 && !gameOver)
         {
             TriggerGameOver();
-            gameOver = true;
         }
     }
 
     private void TriggerGameOver()
     {
-        print("Game Over!");
         if (seasonalParticles)
         {
             seasonalParticles.Stop();
         }
         gameOverParticles.Play();
 
-        //Invoke("LoadGameOverScene", particleSystem.main.duration);        
+        // Provide game over prompt and option to continue or restart this wave
+        EnemySpawner.startAtWave = 2;
+        Invoke("LoadGameOverScene", gameOverParticles.main.duration);        
     }
 
     private void LoadGameOverScene()
     {
-        sceneLoader.GameOver();
+        int continues = SceneLoader.continues;
+        string gameOverMessage = "The base got destroyed!";
+
+        if (continues > 0)
+        {
+            continuesAvailable = true;
+
+            gameOverMessage += "\n\nYou have " + continues + " continues left." +
+                "\n\n Press C to continue." +
+                "\n Press R to start a new game.";
+            gameOverPrompt.text = gameOverMessage;                           
+            gameOverPrompt.enabled = true;
+
+        }
+        else
+        {
+            continuesAvailable = false;
+
+            gameOverMessage += "\n You are out of continues!" +
+                "\n\n Press R to reset to a new game.";
+            gameOverPrompt.text = gameOverMessage;
+            gameOverPrompt.enabled = true;
+        }
+
+        gameOver = true;
+    }
+
+    private void Update()
+    {
+        if(gameOver && continuesAvailable)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+               sceneLoader.Continue(enemySpawner.currentWave.id);
+            }
+        }
     }
 
 }

@@ -16,30 +16,37 @@ public class EnemySpawner : MonoBehaviour {
     [SerializeField] EnemyMovement enemyLevel2Prefab;
     [SerializeField] EnemyMovement enemyLevel3Prefab;
     [SerializeField] TowerFactory towerFactory;
+    [SerializeField] FriendlyBase friendlyBase;
 
+    [SerializeField] int startAtWaveSetting = 1;
+
+    //State//TODO hide
+    public bool stopped;
+    public static int startAtWave = 1;
+    public Wave currentWave; //TODO hide
+
+    Queue<Wave> waves = new Queue<Wave>();
+    Vector2 currentEnemy;
+
+    int waveCounter = 0;
 
     public struct Wave
     {
+        public int id;
         public Queue<Vector2> enemies;
         public Vector4 towers;
         public string text;
 
-        public Wave(Queue<Vector2> e, Vector4 t, string s)
+        public Wave(int i, Queue<Vector2> e, Vector4 t, string s)
         {
+            id = i;
             enemies = e;
             towers = t;
             text = s;
         }
     }
 
-    Queue<Wave> waves = new Queue<Wave>();
-    Wave currentWave; //TODO hide
-    Vector2 currentEnemy; //TODO hide
 
-    int waveCounter = 0;
-
-    //State//TODO hide
-    public bool stopped;
 
 	// Use this for initialization
 	void Start () {
@@ -53,23 +60,25 @@ public class EnemySpawner : MonoBehaviour {
     {
         waves = new Queue<Wave>(new[] 
         {
-            // Wave 1
-            new Wave(new Queue<Vector2>
-                (new[]
-                    {
-                        new Vector2(1, 1.5f),
-                        new Vector2(1, 1.5f),
-                        new Vector2(1, 1.5f),
-                    }),
+            new Wave(
+                    1,
+
+                    new Queue<Vector2>(new[]
+                        {
+                            new Vector2(1, 1.5f),
+                            new Vector2(1, 1.5f),
+                            new Vector2(1, 1.5f),
+                        }),
 
                     new Vector4(1, 0, 0 ,0),
 
                     "Welcome to Skull equals True!"
                 ),
-            
-            // Wave 2
-            new Wave(new Queue<Vector2>
-                (new[]
+
+            new Wave(
+                    2,
+                    
+                    new Queue<Vector2>(new[]
                     {
                         new Vector2(1, 1.5f),
                         new Vector2(1, 1.5f),
@@ -84,16 +93,15 @@ public class EnemySpawner : MonoBehaviour {
                     "End of wave 2!"
                 ),
 
-                        // Wave 3
-            new Wave(new Queue<Vector2>
-                (new[]
+            new Wave(
+                    3,
+                
+                    new Queue<Vector2>(new[]
                     {
                         new Vector2(1, 1.5f),
                         new Vector2(1, 1.5f),
                         new Vector2(1, 3.5f),
                         new Vector2(2, 1f),
-                        new Vector2(1, 0.5f),
-                        new Vector2(1, 1f)
                     }),
 
                     new Vector4(1, 1, 0 ,0),
@@ -101,6 +109,11 @@ public class EnemySpawner : MonoBehaviour {
                     "End of wave 3\n 1+ Frost Tower\n\n Frost towers lower enemy temperature and slows them down."
                 )
         });
+
+        for (int i = 0; i < startAtWave - 1; i++)
+        {
+            waves.Dequeue();
+        }
 
     }
 
@@ -127,6 +140,7 @@ public class EnemySpawner : MonoBehaviour {
         endOfWavePrompt.enabled = true;
 
         towerFactory.SetTowerLimits(currentWave.towers);
+
     }
 
     IEnumerator RunSpawner()
@@ -138,14 +152,14 @@ public class EnemySpawner : MonoBehaviour {
                 if (currentWave.enemies.Count > 0)
                 {
                     currentEnemy = currentWave.enemies.Dequeue();
-                    print(currentEnemy);
                     SpawnEnemy((int)currentEnemy[0]);
                     yield return new WaitForSeconds(currentEnemy.y);
 
                 }
                 else
                 {
-                    StartNextWave();
+                    if (!friendlyBase.gameOver && gameObject.transform.childCount == 1) StartNextWave();
+
                     yield return new WaitForSeconds(2f);
                 }
             }
