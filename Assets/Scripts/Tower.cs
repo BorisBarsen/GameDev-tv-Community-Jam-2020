@@ -37,16 +37,13 @@ public class Tower : MonoBehaviour {
             DecreaseCooldown();
 
             var closestEnemyInRange = FindClosestEnemyInRange();
+
             if (cooldownTimer == 0 && closestEnemyInRange)
             {
                 gun.Play();
                 objectToPan.LookAt(closestEnemyInRange.transform);
                 cooldownTimer = cooldown;
             }
-            //else
-            //{
-            //    gun.Stop();
-            //}
         }
     }
 
@@ -59,20 +56,19 @@ public class Tower : MonoBehaviour {
         if (cooldownTimer < 0) cooldownTimer = 0;
     }
 
-    private void ShootAtClosestEnemyInRange()
-    {
-        targetEnemy = FindClosestEnemyInRange();
-
-        if (targetEnemy)
-        {
-            objectToPan.LookAt(targetEnemy.transform);
-            gun.Play(); 
-        }
-        else
-        {
-            gun.Stop();
-        }
-    }
+    //private void ShootAtClosestEnemyInRange()
+    //{
+    //    targetEnemy = FindClosestEnemyInRange();
+    //    if (targetEnemy)
+    //    {
+    //        objectToPan.LookAt(targetEnemy.transform);
+    //        gun.Play(); 
+    //    }
+    //    else
+    //    {
+    //        gun.Stop();
+    //    }
+    //}
 
     private GameObject FindClosestEnemyInRange()
     {
