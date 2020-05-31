@@ -24,6 +24,7 @@ public class EnemySpawner : MonoBehaviour {
     public static int startAtWave = 1;
     public Wave currentWave; //TODO hide
 
+    AudioSource audioSource;
     Queue<Wave> waves = new Queue<Wave>();
     Vector2 currentEnemy;
 
@@ -47,6 +48,8 @@ public class EnemySpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        audioSource = GetComponent<AudioSource>(); 
+
         if (startAtWaveSetting != 1)
         {
             startAtWave = startAtWaveSetting;
@@ -158,6 +161,7 @@ public class EnemySpawner : MonoBehaviour {
         }
 
         GameObject enemyClone = Instantiate(enemyPrefab.gameObject, transform.position, Quaternion.identity) as GameObject;
+        audioSource.Play();
         enemyClone.transform.parent = gameObject.transform;
     }
 

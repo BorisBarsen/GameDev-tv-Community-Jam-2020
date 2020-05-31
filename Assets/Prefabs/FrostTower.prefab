@@ -256,7 +256,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1628871690972788}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.06985824, y: -0.10808956, z: 0.007614494, w: 0.9916544}
   m_LocalPosition: {x: 0, y: 5.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -656,7 +656,7 @@ MonoBehaviour:
   gun: {fileID: 198500686169779034}
   gunRange: 25
   cooldown: 2
-  cooldownTimer: 0
+  cooldownTimer: 1.1270291
   tempChange: -0.3
   type: 0
   baseWaypoint: {fileID: 0}
@@ -720,7 +720,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -506591599
+  randomSeed: 1952140217
   InitialModule:
     serializedVersion: 3
     enabled: 1

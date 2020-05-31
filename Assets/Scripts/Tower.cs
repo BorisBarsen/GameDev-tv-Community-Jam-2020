@@ -28,9 +28,10 @@ public class Tower : MonoBehaviour {
     {
         Destroy(gameObject);
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+
+    // Update is called once per frame
+    void Update ()
     {
         if (!type.Equals(Type.Water))
         {
@@ -50,6 +51,7 @@ public class Tower : MonoBehaviour {
 
         }
     }
+
 
     private void DecreaseCooldown()
     {
