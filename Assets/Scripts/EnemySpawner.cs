@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour {
 
@@ -10,6 +11,7 @@ public class EnemySpawner : MonoBehaviour {
     [SerializeField] EnemyMovement enemyLevel1Prefab;
     [SerializeField] EnemyMovement enemyLevel2Prefab;
     [SerializeField] EnemyMovement enemyLevel3Prefab;
+    [SerializeField] EnemyMovement enemyLevel4Prefab;
     [SerializeField] TowerFactory towerFactory;
     [SerializeField] FriendlyBase friendlyBase;
 
@@ -58,7 +60,7 @@ public class EnemySpawner : MonoBehaviour {
 
     void InitializeWaves()
     {
-        waves = new Queue<Wave>(new[] 
+        waves = new Queue<Wave>(new[]
         {
             new Wave(
                     1,
@@ -77,25 +79,25 @@ public class EnemySpawner : MonoBehaviour {
 
             new Wave(
                     2,
-                    
+
                     new Queue<Vector2>(new[]
                     {
                         new Vector2(1, 1.5f),
                         new Vector2(1, 1.5f),
                         new Vector2(1, 0.5f),
                         new Vector2(1, 0.5f),
-                        new Vector2(1, 1f),
+                        new Vector2(1, 0.25f),
                         new Vector2(1, 1f)
                     }),
 
                     new Vector4(1, 0, 0 ,0),
 
-                    "End of wave 1\n\n"
+                    "End of wave 1\n\nThe seasons affect the ambient temperature, try to use this to your advantage!"
                 ),
 
             new Wave(
                     3,
-                
+
                     new Queue<Vector2>(new[]
                     {
                         new Vector2(1, 1.5f),
@@ -106,7 +108,7 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(1, 1, 0 ,0),
 
-                    "End of wave 2\n\n +1 Frost Tower\n\n Frost towers lower the enemies temperature slowing them down."
+                    "End of wave 2\n\n+1 Frost Tower\n\n Press '2' to start placing frost towers.\n Lower the enemies temperature and slow them down!"
                 ),
 
              new Wave(
@@ -122,7 +124,7 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(1, 1, 0 ,0),
 
-                    "End of wave 3\n\n The seasons affect the ambient temperature, try to use this to your advantage!"
+                    "End of wave 3\n\n "
                 ),
 
               new Wave(
@@ -139,7 +141,7 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(1, 1, 1 ,0),
 
-                    "End of wave 4\n\n 1+ Water Tower\n\n Water towers apply the WET status effect for a short period of time.\n WET enmies cooling down twice as fast."
+                    "End of wave 4\n\n+1 Water Tower\n\n Press '3' to start placing Water towers. \nApply the WET status effect for a short period of time.\n WET skulls cool down twice as fast!"
                 ),
 
               new Wave(
@@ -154,12 +156,102 @@ public class EnemySpawner : MonoBehaviour {
                         new Vector2(2, 1f),
                         new Vector2(1, 0.25f),
                         new Vector2(1, 0.25f),
-                        new Vector2(1, 0.25f),
+                        new Vector2(1, 12f),
+                        new Vector2(3, 0.25f),
                     }),
 
                     new Vector4(2, 1, 1 ,0),
 
-                    "End of wave 5\n\n 1+ Fire Tower\n\n"
+                    "End of wave 5\n\n+1 Fire Tower"
+                ),
+
+                new Wave(
+                    7,
+
+                    new Queue<Vector2>(new[]
+                    {
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(2, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 6.0f),
+                        new Vector2(2, 1f),
+                        new Vector2(2, 12f),
+                    }),
+
+                    new Vector4(2, 2, 1 ,0),
+
+                    "End of wave 6\n\n+1 Frost Tower"
+                ),
+
+                new Wave(
+                    8,
+
+                    new Queue<Vector2>(new[]
+                    {
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 2f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 1.25f),
+                        new Vector2(2, 12.0f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 1.25f),
+                        new Vector2(2, 4f),
+                        new Vector2(1, 24.0f),
+                        new Vector2(3, 1f)
+                    }),
+
+                    new Vector4(2, 2, 1, 1),
+
+                    "End of wave 7\n\n+1 Thunder Tower\n\n Press '4' to start placing Thunder towers.\n\n WET skulls get stunned when hit with THUNDER."
+                ),
+
+                new Wave(
+                    9,
+
+                    new Queue<Vector2>(new[]
+                    {
+                        new Vector2(2, 6.0f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 1.25f),
+                        new Vector2(2, 6.0f),
+                        new Vector2(2, 6.0f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 12.25f),
+                        new Vector2(2, 4f),
+                        new Vector2(3, 1f)
+                    }),
+
+                    new Vector4(2, 2, 1, 2),
+
+                    "End of wave 8\n\n+1 Thunder Tower\n\n Be carefull with the WET status effect. During WINTER it will cool down the skulls rapidly!"
+                ),
+
+                new Wave(
+                    10,
+
+                    new Queue<Vector2>(new[]
+                    {
+                        new Vector2(4, 0.25f),
+                        new Vector2(2, 1.0f),
+                        new Vector2(1, 0.1f),
+                        new Vector2(1, 0.1f),
+                        new Vector2(1, 0.1f),
+                        new Vector2(1, 0.1f),
+                        new Vector2(1, 0.2f),
+                        new Vector2(2, 0.25f),
+                        new Vector2(2, 1.25f),
+                        new Vector2(2, 4.0f),
+                        new Vector2(2, 5.0f)
+                    }),
+
+                    new Vector4(3, 3, 2, 3),
+
+                    "End of wave 9\n+1 Fire Tower\n+1 Frost Tower\n+1 Water Tower\n+1 Thunder Tower\n\nLAST WAVE INCOMING!"
                 )
         });
 
@@ -180,6 +272,16 @@ public class EnemySpawner : MonoBehaviour {
                 endOfWavePrompt.enabled = false;
             }
         }
+
+        if (Input.GetKey(KeyCode.L))
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SceneManager.LoadScene(1);
+                startAtWave = 2; startAtWaveSetting = 2;
+            }
+
+        }
     }
 
     private void StartNextWave()
@@ -190,7 +292,7 @@ public class EnemySpawner : MonoBehaviour {
         {
             currentWave = waves.Dequeue();
 
-            endOfWavePrompt.text = currentWave.text + "\n\n Press 'SPACE' to start next wave.";
+            endOfWavePrompt.text = currentWave.text + "\n\n Press 'SPACE' to start wave " + currentWave.id;
 
             endOfWavePrompt.enabled = true;
 
@@ -244,6 +346,10 @@ public class EnemySpawner : MonoBehaviour {
 
             case 3:
                 enemyPrefab = enemyLevel3Prefab;
+                break;
+
+            case 4:
+                enemyPrefab = enemyLevel4Prefab;
                 break;
 
             default:

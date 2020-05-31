@@ -24,6 +24,7 @@ public class EnemyMovement : MonoBehaviour {
     Vector3 target;
 
     bool dying = false;
+    bool splitting = false;
 
     // Status effect 
     float stunTimer; // removed in the same frame it was recieved
@@ -77,8 +78,9 @@ public class EnemyMovement : MonoBehaviour {
 
     public void Split(Vector3 masterPosition)
     {
-        if (agentEnemyPrefab)
+        if (agentEnemyPrefab && !splitting)
         {
+            splitting = true;
             for (int i = 0; i < splitAmount; i++)
             {
                 var enemyChild = Instantiate(agentEnemyPrefab, masterPosition + new Vector3(i*-10, 0f, i*10), Quaternion.identity);

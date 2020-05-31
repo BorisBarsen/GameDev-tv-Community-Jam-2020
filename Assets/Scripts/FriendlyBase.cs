@@ -42,7 +42,15 @@ public class FriendlyBase : MonoBehaviour {
         }
         else
         {
-            lifesText.text = lifes.ToString() + " lifes left";
+            if (lifes > 1)
+            {
+                lifesText.text = lifes.ToString() + " lifes left";
+            }
+            else
+            {
+                lifesText.text = "Game over (" + lifes.ToString() + ")";
+
+            }
         }
 
         if (lifes <= 0 && !gameOver)

@@ -8,11 +8,17 @@ using UnityEngine.SceneManagement; //So you can use SceneManager
 public class SceneLoader : MonoBehaviour
 {
     public static int continues = 3;
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         if (Input.GetKeyDown("r"))
         {
             Reset();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -20,18 +26,18 @@ public class SceneLoader : MonoBehaviour
     {
         EnemySpawner.startAtWave = 1;
         continues = 3;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(1);
     }
 
     public void Continue(int startAtLevel)
     {
         continues--;
         EnemySpawner.startAtWave = startAtLevel;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(1);
     }
 
     public void GameOver()
     {
-        SceneManager.LoadScene("GameOver");
+        SceneManager.LoadScene(2);
     }
 }
