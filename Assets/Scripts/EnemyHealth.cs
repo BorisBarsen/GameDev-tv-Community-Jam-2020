@@ -23,15 +23,15 @@ public class EnemyHealth : MonoBehaviour {
             var hitFromTower = other.GetComponentInParent<Tower>();
             if (hitFromTower.type == Tower.Type.Water)
             {
-                temperature.wet = true;
+                movement.ApplyWet();
             }
 
             if (hitFromTower.type == Tower.Type.Thunder)
             {
-                movement.Stun();
+                movement.ApplyStun();
             }
 
-            temperature.ChangeTemp(hitFromTower.GetTempChange()); //TODO have the rane that this script passes match the one used in the object
+            temperature.ChangeTemp(hitFromTower.GetTempChange()); //TODO have the range that this script passes match the one that is used in the object
         }
     }
 

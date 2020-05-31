@@ -28,14 +28,22 @@ public class FriendlyBase : MonoBehaviour {
     private void Start()
     {
         gameOverPrompt.enabled = false;
-        lifesText.text = lifes.ToString();
+        lifesText.text = lifes.ToString() + " lifes left";
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
         lifes--;
-        lifesText.text = lifes.ToString();
+        if (lifes == 1)
+        {
+            lifesText.text = "1 life left";
+
+        }
+        else
+        {
+            lifesText.text = lifes.ToString() + " lifes left";
+        }
 
         if (lifes <= 0 && !gameOver)
         {

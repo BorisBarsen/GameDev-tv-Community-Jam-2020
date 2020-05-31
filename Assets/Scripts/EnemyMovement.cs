@@ -13,9 +13,13 @@ public class EnemyMovement : MonoBehaviour {
     [Range(0f, 1f)]
     [SerializeField] float speedFactor = 1f;
     [SerializeField] float stunDuration;
+    [SerializeField] float wetDuration;
 
     [SerializeField] ParticleSystem stunParticles;
+    [SerializeField] ParticleSystem wetParticles;
 
+    EnemyTemperature enemyTemperature;
+    
     List<Waypoint> path;
     Vector3 target;
 
@@ -23,6 +27,7 @@ public class EnemyMovement : MonoBehaviour {
 
     // Status effect 
     float stunTimer; // removed in the same frame it was recieved
+    float wetTimer; // removed in the same frame it was recieved
 
     // Counter
     int waypointsPassed = 0;
@@ -34,15 +39,35 @@ public class EnemyMovement : MonoBehaviour {
         speedFactor = factor;
     }
 
-    public void Stun()
+    public void ApplyStun()
     {
-        stunParticles.Play();
-        stunTimer = stunDuration;
+        if (enemyTemperature.wet)
+        {
+            stunParticles.Play();
+            stunTimer = stunDuration;
+        }
+    }
+
+    public void ApplyWet()
+    {
+        wetParticles.Play();
+        enemyTemperature.wet = true;
+        wetTimer = wetDuration;
+    }
+
+    public void RemoveWet()
+    {
+        wetTimer = 0;
+        wetParticles.Stop();
+        enemyTemperature.wet = false;
+
     }
 
     // Use this for initialization
     void Start () {
+        enemyTemperature = GetComponent<EnemyTemperature>();
         stunTimer = 0;
+        wetTimer = 0;
         PathFinder pathfinder = FindObjectOfType<PathFinder>();
         path = pathfinder.GetPath();
         if (waypointsPassed < 0) waypointsPassed = 0; // Just for safety
@@ -57,6 +82,7 @@ public class EnemyMovement : MonoBehaviour {
             for (int i = 0; i < splitAmount; i++)
             {
                 var enemyChild = Instantiate(agentEnemyPrefab, masterPosition + new Vector3(i*-10, 0f, i*10), Quaternion.identity);
+                var foo = enemyChild.transform.position;
                 enemyChild.GetComponent<EnemyMovement>().InheritValues(target, waypointsPassed);
             }
         }
@@ -88,6 +114,15 @@ public class EnemyMovement : MonoBehaviour {
         {
             stunTimer -= Time.deltaTime;
             if (stunTimer < 0) stunTimer = 0;
+        }
+
+        if (wetTimer > 0)
+        {
+            wetTimer -= Time.deltaTime;
+            if (wetTimer <= 0)
+            {
+                RemoveWet();
+            }
         }
     }
 

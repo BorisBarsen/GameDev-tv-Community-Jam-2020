@@ -5,12 +5,7 @@ using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour {
 
-    //[SerializeField] EnemyMovement enemyPrefab;
-
     [SerializeField] Text endOfWavePrompt;
-
-    //[SerializeField] int[] enmiesPerWave; //TODO hide
-    //[SerializeField] [Range(0.1f, 120f)] float[] secondsBetweenSpawnsPerWave;
 
     [SerializeField] EnemyMovement enemyLevel1Prefab;
     [SerializeField] EnemyMovement enemyLevel2Prefab;
@@ -20,8 +15,8 @@ public class EnemySpawner : MonoBehaviour {
 
     [SerializeField] int startAtWaveSetting = 1;
 
-    //State//TODO hide
-    public bool stopped;
+    //State 
+    public bool stopped; //TODO hide
     public static int startAtWave = 1;
     public Wave currentWave; //TODO hide
 
@@ -77,7 +72,7 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(1, 0, 0 ,0),
 
-                    "Welcome to Skull equals True!"
+                    "Welcome to Skulls = True!"
                 ),
 
             new Wave(
@@ -87,15 +82,15 @@ public class EnemySpawner : MonoBehaviour {
                     {
                         new Vector2(1, 1.5f),
                         new Vector2(1, 1.5f),
-                        new Vector2(1, 1.5f),
-                        new Vector2(1, 1f),
+                        new Vector2(1, 0.5f),
+                        new Vector2(1, 0.5f),
                         new Vector2(1, 1f),
                         new Vector2(1, 1f)
                     }),
 
                     new Vector4(1, 0, 0 ,0),
 
-                    "End of wave 1!"
+                    "End of wave 1\n\n"
                 ),
 
             new Wave(
@@ -105,13 +100,66 @@ public class EnemySpawner : MonoBehaviour {
                     {
                         new Vector2(1, 1.5f),
                         new Vector2(1, 1.5f),
-                        new Vector2(1, 3.5f),
+                        new Vector2(1, 4.5f),
                         new Vector2(2, 1f),
                     }),
 
                     new Vector4(1, 1, 0 ,0),
 
-                    "End of wave 2!\n\n 1 + Frost Tower\n\n Frost towers lower enemy temperature and slows them down."
+                    "End of wave 2\n\n +1 Frost Tower\n\n Frost towers lower the enemies temperature slowing them down."
+                ),
+
+             new Wave(
+                    4,
+
+                    new Queue<Vector2>(new[]
+                    {
+                        new Vector2(1, 1.5f),
+                        new Vector2(1, 1.5f),
+                        new Vector2(2, 12f),
+                        new Vector2(2, 1f),
+                    }),
+
+                    new Vector4(1, 1, 0 ,0),
+
+                    "End of wave 3\n\n The seasons affect the ambient temperature, try to use this to your advantage!"
+                ),
+
+              new Wave(
+                    5,
+
+                    new Queue<Vector2>(new[]
+                    {
+                        new Vector2(1, 2f),
+                        new Vector2(1, 2f),
+                        new Vector2(1, 6f),
+                        new Vector2(2, 6f),
+                        new Vector2(2, 1f),
+                    }),
+
+                    new Vector4(1, 1, 1 ,0),
+
+                    "End of wave 4\n\n 1+ Water Tower\n\n Water towers apply the WET status effect for a short period of time.\n WET enmies cooling down twice as fast."
+                ),
+
+              new Wave(
+                    6,
+
+                    new Queue<Vector2>(new[]
+                    {
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 3.25f),
+                        new Vector2(2, 1f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                    }),
+
+                    new Vector4(2, 1, 1 ,0),
+
+                    "End of wave 5\n\n 1+ Fire Tower\n\n"
                 )
         });
 
@@ -169,7 +217,8 @@ public class EnemySpawner : MonoBehaviour {
                 }
                 else
                 {
-                    if (!friendlyBase.gameOver && gameObject.transform.childCount == 1) StartNextWave();
+                    print(GameObject.FindGameObjectsWithTag("Enemy").Length);
+                    if (!friendlyBase.gameOver && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) StartNextWave();
 
                     yield return new WaitForSeconds(2f);
                 }
