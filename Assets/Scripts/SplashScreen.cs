@@ -16,8 +16,10 @@ public class SplashScreen : MonoBehaviour {
 	void Start () {
         startText = "Welcome to Hot Skulls" +
             "\n\nSave your base from the skull invasion by heating them up!" +
-            "\n\nPress 'C' for CREDITS" +
-            "\n Press 'SPACE' to START A NEW GAME";
+            "\n\nPress 'SPACE' to START A NEW GAME" +
+            "\nPress 'C' for CREDITS" +
+            "\nPress 'Q' to QUIT";
+            
         text.text = startText;
 	}
 	
@@ -34,6 +36,8 @@ public class SplashScreen : MonoBehaviour {
                     "\nNumber Keys (1, 2, 3, 4) - Change tower type" +
                     "\n\nR - To RESET to a NEW GAME" +
                     "\nESC - To ESC for the MAIN MENU" +
+                    "\nPress 'Q' to QUIT" +
+
 
                     "\n\n\n Press 'SPACE' to START THE BATTLE!";
             }
@@ -52,6 +56,11 @@ public class SplashScreen : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.C) && screen == 0)
         {
             SceneManager.LoadScene(2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
         }
     }
 }
