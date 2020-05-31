@@ -430,8 +430,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentEnemyPrefab: {fileID: 1874597062536572, guid: 16d7831cdea5dad4dab4d2bd2540b6bd,
     type: 2}
-  splitAmount: 2
-  baseSpeed: 2
+  splitAmount: 3
+  baseSpeed: 2.5
   speedFactor: 1
   stunDuration: 1.5
   wetDuration: 0.75
@@ -7219,7 +7219,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -165985052
+  randomSeed: 1679503422
   InitialModule:
     serializedVersion: 3
     enabled: 1

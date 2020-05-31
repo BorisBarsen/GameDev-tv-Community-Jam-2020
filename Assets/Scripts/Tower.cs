@@ -37,13 +37,17 @@ public class Tower : MonoBehaviour {
             DecreaseCooldown();
 
             var closestEnemyInRange = FindClosestEnemyInRange();
-
-            if (cooldownTimer == 0 && closestEnemyInRange)
+            if (closestEnemyInRange)
             {
-                gun.Play();
                 objectToPan.LookAt(closestEnemyInRange.transform);
-                cooldownTimer = cooldown;
+
+                if (cooldownTimer == 0)
+                {
+                    gun.Play();
+                    cooldownTimer = cooldown;
+                }
             }
+
         }
     }
 

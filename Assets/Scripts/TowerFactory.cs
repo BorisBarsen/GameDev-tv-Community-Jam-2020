@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TowerFactory : MonoBehaviour {
 
     [SerializeField] FriendlyBase friendlyBase;
+    [SerializeField] EnemySpawner enemySpawner;
 
     [SerializeField] int fireTowerLimit = 5;
     [SerializeField] int frostTowerLimit = 5;
@@ -113,7 +114,7 @@ public class TowerFactory : MonoBehaviour {
 
     public void AddTower(Waypoint baseWaypoint)
     {
-        if (!friendlyBase.gameOver)
+        if (!friendlyBase.gameOver && enemySpawner.allowPlacingTowers)
         {
             switch (towerChosen)
             {

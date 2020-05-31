@@ -15,7 +15,7 @@ public class SplashScreen : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         startText = "Welcome to Hot Skulls" +
-            "\n\nSave the world from the skull invasion by heating them up!" +
+            "\n\nSave your base from the skull invasion by heating them up!" +
             "\n\nPress 'C' for CREDITS" +
             "\n Press 'SPACE' to START A NEW GAME";
         text.text = startText;

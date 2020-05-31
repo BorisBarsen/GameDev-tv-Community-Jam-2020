@@ -19,6 +19,8 @@ public class EnemySpawner : MonoBehaviour {
 
     //State 
     public bool stopped; //TODO hide
+    public bool allowPlacingTowers = false; //TODO hide
+    public bool winning = false; //TODO hide
     public static int startAtWave = 1;
     public Wave currentWave; //TODO hide
 
@@ -43,11 +45,9 @@ public class EnemySpawner : MonoBehaviour {
         }
     }
 
-
-
 	// Use this for initialization
 	void Start () {
-        if(startAtWaveSetting != 1)
+        if (startAtWaveSetting != 1)
         {
             startAtWave = startAtWaveSetting;
         }
@@ -56,6 +56,109 @@ public class EnemySpawner : MonoBehaviour {
         StartNextWave();
 
         StartCoroutine(RunSpawner());
+    }    
+
+    private void Update()
+    {
+        if(stopped)
+        {
+            if (Input.GetKeyDown("space"))
+            {
+                if (!winning)
+                {
+                    stopped = false;
+
+                    endOfWavePrompt.enabled = false;
+                }
+                else
+                {
+                    SceneManager.LoadScene(2);
+                }
+            }
+        }
+    }
+
+    private void StartNextWave()
+    {
+        stopped = true;
+        allowPlacingTowers = false;
+
+
+        if (waves.Count > 0)
+        {
+            currentWave = waves.Dequeue();
+
+            endOfWavePrompt.text = currentWave.text + "\n\n Press 'SPACE' to start wave " + currentWave.id;
+
+            endOfWavePrompt.enabled = true;
+
+            towerFactory.SetTowerLimits(currentWave.towers);
+        }
+        else
+        {
+            winning = true;
+            endOfWavePrompt.text = "YOU WIN!\n\nCongratulations!\n You defended the base from the skull invasion!\n\nThank you for playing!\n\nPress 'SPACE' for the credits";
+
+            endOfWavePrompt.enabled = true;
+        }
+    }
+
+    IEnumerator RunSpawner()
+    {
+        while (true)
+        {
+            if (!stopped)
+            { 
+                if (currentWave.enemies.Count > 0)
+                {
+                    allowPlacingTowers = true;
+                    currentEnemy = currentWave.enemies.Dequeue();
+                    SpawnEnemy((int)currentEnemy[0]);
+                    yield return new WaitForSeconds(currentEnemy.y);
+
+                }
+                else
+                {
+                    print(GameObject.FindGameObjectsWithTag("Enemy").Length);
+                    if (!friendlyBase.gameOver && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) StartNextWave();
+
+                    yield return new WaitForSeconds(2f);
+                }
+            }
+            yield return new WaitForSeconds(0.3f);
+        }
+    }
+
+    private void SpawnEnemy(int enemyLevel)
+    {
+
+        EnemyMovement enemyPrefab;
+
+        switch (enemyLevel)
+        {
+            case 1:
+                enemyPrefab = enemyLevel1Prefab;
+                break;
+
+            case 2:
+                enemyPrefab = enemyLevel2Prefab;
+                break;
+
+            case 3:
+                enemyPrefab = enemyLevel3Prefab;
+                break;
+
+            case 4:
+                enemyPrefab = enemyLevel4Prefab;
+                break;
+
+            default:
+                enemyPrefab = enemyLevel1Prefab;
+                break;
+        }
+
+        GameObject enemyClone = Instantiate(enemyPrefab.gameObject, transform.position, Quaternion.identity) as GameObject;
+        enemyClone.transform.parent = gameObject.transform;
     }
 
     void InitializeWaves()
@@ -67,6 +170,7 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Queue<Vector2>(new[]
                         {
+                            new Vector2(1, 1.5f),
                             new Vector2(1, 1.5f),
                             new Vector2(1, 1.5f),
                             new Vector2(1, 1.5f),
@@ -102,13 +206,20 @@ public class EnemySpawner : MonoBehaviour {
                     {
                         new Vector2(1, 1.5f),
                         new Vector2(1, 1.5f),
+                        new Vector2(1, 1.5f),
                         new Vector2(1, 4.5f),
+                        new Vector2(2, 12f),
                         new Vector2(2, 1f),
+                        new Vector2(1, 1.5f),
+                        new Vector2(1, 1.5f),
                     }),
 
                     new Vector4(1, 1, 0 ,0),
 
-                    "End of wave 2\n\n+1 Frost Tower\n\n Press '2' to start placing frost towers.\n Lower the enemies temperature and slow them down!"
+                    "End of wave 2\n\n" +
+                    "+1 Frost Tower\n\n" +
+                    "Press '2' to start placing frost towers.\n" +
+                    "Lower the enemies temperature and slow them down!"
                 ),
 
              new Wave(
@@ -118,7 +229,10 @@ public class EnemySpawner : MonoBehaviour {
                     {
                         new Vector2(1, 1.5f),
                         new Vector2(1, 1.5f),
+                        new Vector2(2, 1f),
                         new Vector2(2, 12f),
+                        new Vector2(1, 1.5f),
+                        new Vector2(1, 1.5f),
                         new Vector2(2, 1f),
                     }),
 
@@ -137,11 +251,20 @@ public class EnemySpawner : MonoBehaviour {
                         new Vector2(1, 6f),
                         new Vector2(2, 6f),
                         new Vector2(2, 1f),
+                        new Vector2(1, 1f),
+                        new Vector2(1, 1f),
+                        new Vector2(1, 3f),
+                        new Vector2(2, 3f),
+                        new Vector2(2, 1f),
                     }),
 
                     new Vector4(1, 1, 1 ,0),
 
-                    "End of wave 4\n\n+1 Water Tower\n\n Press '3' to start placing Water towers. \nApply the WET status effect for a short period of time.\n WET skulls cool down twice as fast!"
+                    "End of wave 4\n\n" +
+                    "+1 Water Tower\n\n" +
+                    "Press '3' to start placing Water towers.\n" +
+                    "Apply the WET status effect for a short period of time.\n" +
+                    "WET skulls cool down twice as fast!"
                 ),
 
               new Wave(
@@ -158,6 +281,9 @@ public class EnemySpawner : MonoBehaviour {
                         new Vector2(1, 0.25f),
                         new Vector2(1, 12f),
                         new Vector2(3, 0.25f),
+                        new Vector2(1, 3.25f),
+                        new Vector2(2, 1f),
+                        new Vector2(1, 0.25f),
                     }),
 
                     new Vector4(2, 1, 1 ,0),
@@ -172,6 +298,7 @@ public class EnemySpawner : MonoBehaviour {
                     {
                         new Vector2(1, 0.25f),
                         new Vector2(1, 0.25f),
+                        new Vector2(2, 0.25f),
                         new Vector2(2, 0.25f),
                         new Vector2(1, 0.25f),
                         new Vector2(1, 6.0f),
@@ -189,9 +316,15 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Queue<Vector2>(new[]
                     {
+                        new Vector2(2, 1f),
+                        new Vector2(2, 1f),
                         new Vector2(1, 0.25f),
                         new Vector2(1, 2f),
+                        new Vector2(1, 2f),
                         new Vector2(1, 0.25f),
+                        new Vector2(1, 0.25f),
+                        new Vector2(2, 1f),
+                        new Vector2(2, 1f),
                         new Vector2(1, 1.25f),
                         new Vector2(2, 12.0f),
                         new Vector2(1, 0.25f),
@@ -203,7 +336,10 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(2, 2, 1, 1),
 
-                    "End of wave 7\n\n+1 Thunder Tower\n\n Press '4' to start placing Thunder towers.\n\n WET skulls get stunned when hit with THUNDER."
+                    "End of wave 7\n\n" +
+                    "+1 Thunder Tower\n\n" +
+                    "Press '4' to start placing Thunder towers.\n\n" +
+                    "WET skulls get stunned when hit with THUNDER."
                 ),
 
                 new Wave(
@@ -211,11 +347,13 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Queue<Vector2>(new[]
                     {
-                        new Vector2(2, 6.0f),
+                        new Vector2(2, 1.0f),
+                        new Vector2(2, 1.0f),
                         new Vector2(1, 0.25f),
                         new Vector2(1, 0.25f),
                         new Vector2(1, 0.25f),
                         new Vector2(1, 1.25f),
+                        new Vector2(3, 1f),
                         new Vector2(2, 6.0f),
                         new Vector2(2, 6.0f),
                         new Vector2(1, 0.25f),
@@ -228,8 +366,24 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(2, 2, 1, 2),
 
-                    "End of wave 8\n\n+1 Thunder Tower\n\n Be carefull with the WET status effect. During WINTER it will cool down the skulls rapidly!"
+                    "End of wave 8\n\n" +
+                    "+1 Thunder Tower\n\n" +
+                    "Be carefull with the WET status effect. During WINTER it will cool down the skulls rapidly!"
                 ),
+
+                //TODO remove
+                //new Wave(
+                //    10,
+
+                //    new Queue<Vector2>(new[]
+                //    {
+                //        new Vector2(1, 1.0f)
+                //    }),
+
+                //    new Vector4(2, 2, 1, 2),
+
+                //    "This is a test wave for the credits screen"
+                //),
 
                 new Wave(
                     10,
@@ -238,15 +392,17 @@ public class EnemySpawner : MonoBehaviour {
                     {
                         new Vector2(4, 0.25f),
                         new Vector2(2, 1.0f),
+                        new Vector2(2, 1.0f),
                         new Vector2(1, 0.1f),
                         new Vector2(1, 0.1f),
                         new Vector2(1, 0.1f),
                         new Vector2(1, 0.1f),
                         new Vector2(1, 0.2f),
-                        new Vector2(2, 0.25f),
+                        new Vector2(3, 0.25f),
                         new Vector2(2, 1.25f),
                         new Vector2(2, 4.0f),
-                        new Vector2(2, 5.0f)
+                        new Vector2(2, 5.0f),
+                        new Vector2(1, 0.1f),
                     }),
 
                     new Vector4(3, 3, 2, 3),
@@ -260,104 +416,5 @@ public class EnemySpawner : MonoBehaviour {
             waves.Dequeue();
         }
 
-    }
-
-    private void Update()
-    {
-        if(stopped)
-        {
-            if (Input.GetKeyDown("space"))
-            {
-                stopped = false;
-                endOfWavePrompt.enabled = false;
-            }
-        }
-
-        if (Input.GetKey(KeyCode.L))
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                SceneManager.LoadScene(1);
-                startAtWave = 2; startAtWaveSetting = 2;
-            }
-
-        }
-    }
-
-    private void StartNextWave()
-    {
-        stopped = true;
-        
-        if (waves.Count > 0)
-        {
-            currentWave = waves.Dequeue();
-
-            endOfWavePrompt.text = currentWave.text + "\n\n Press 'SPACE' to start wave " + currentWave.id;
-
-            endOfWavePrompt.enabled = true;
-
-            towerFactory.SetTowerLimits(currentWave.towers);
-        }
-        else
-        {
-            //TODO add win screen, credits;
-        }
-    }
-
-    IEnumerator RunSpawner()
-    {
-        while (true)
-        {
-            if (!stopped)
-            { 
-                if (currentWave.enemies.Count > 0)
-                {
-                    currentEnemy = currentWave.enemies.Dequeue();
-                    SpawnEnemy((int)currentEnemy[0]);
-                    yield return new WaitForSeconds(currentEnemy.y);
-
-                }
-                else
-                {
-                    print(GameObject.FindGameObjectsWithTag("Enemy").Length);
-                    if (!friendlyBase.gameOver && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) StartNextWave();
-
-                    yield return new WaitForSeconds(2f);
-                }
-            }
-            yield return new WaitForSeconds(2f);
-        }
-    }
-
-    private void SpawnEnemy(int enemyLevel)
-    {
-
-        EnemyMovement enemyPrefab;
-
-        switch (enemyLevel)
-        {
-            case 1:
-                enemyPrefab = enemyLevel1Prefab;
-                break;
-
-            case 2:
-                enemyPrefab = enemyLevel2Prefab;
-                break;
-
-            case 3:
-                enemyPrefab = enemyLevel3Prefab;
-                break;
-
-            case 4:
-                enemyPrefab = enemyLevel4Prefab;
-                break;
-
-            default:
-                enemyPrefab = enemyLevel1Prefab;
-                break;
-        }
-
-        GameObject enemyClone = Instantiate(enemyPrefab.gameObject, transform.position, Quaternion.identity) as GameObject;
-        enemyClone.transform.parent = gameObject.transform;
     }
 }

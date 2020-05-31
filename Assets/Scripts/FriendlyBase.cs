@@ -61,6 +61,8 @@ public class FriendlyBase : MonoBehaviour {
 
     private void TriggerGameOver()
     {
+        gameOver = true;
+
         if (seasonalParticles)
         {
             seasonalParticles.Stop();
@@ -97,8 +99,6 @@ public class FriendlyBase : MonoBehaviour {
             gameOverPrompt.text = gameOverMessage;
             gameOverPrompt.enabled = true;
         }
-
-        gameOver = true;
     }
 
     private void Update()
