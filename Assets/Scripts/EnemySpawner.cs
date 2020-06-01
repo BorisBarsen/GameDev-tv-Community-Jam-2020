@@ -182,7 +182,7 @@ public class EnemySpawner : MonoBehaviour {
 
                     new Vector4(1, 0, 0 ,0),
 
-                    "Welcome to Skulls = True!"
+                    "Place the fire tower to heat up the attacking skulls!"
                 ),
 
             new Wave(
@@ -374,20 +374,6 @@ public class EnemySpawner : MonoBehaviour {
                     "+1 Thunder Tower\n\n" +
                     "Be carefull with the WET status effect. During WINTER it will cool down the skulls rapidly!"
                 ),
-
-                //TODO remove
-                //new Wave(
-                //    10,
-
-                //    new Queue<Vector2>(new[]
-                //    {
-                //        new Vector2(1, 1.0f)
-                //    }),
-
-                //    new Vector4(2, 2, 1, 2),
-
-                //    "This is a test wave for the credits screen"
-                //),
 
                 new Wave(
                     10,

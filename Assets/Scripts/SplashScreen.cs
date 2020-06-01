@@ -14,7 +14,9 @@ public class SplashScreen : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        startText = "Welcome to Hot Skulls" +
+        GameObject.FindGameObjectWithTag("Music").GetComponent<Music>().PlayMusic();
+
+        startText = "Welcome to Hot Skulls!" +
             "\n\nSave your base from the skull invasion by heating them up!" +
             "\n\nPress 'SPACE' to START A NEW GAME" +
             "\nPress 'C' for CREDITS" +
